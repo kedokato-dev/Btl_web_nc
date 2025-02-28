@@ -1,0 +1,80 @@
+CREATE DATABASE NewsletterDB;
+USE NewsletterDB;
+
+CREATE TABLE Articles (
+    ArticleId INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    Content TEXT COLLATE utf8mb4_unicode_ci NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Services (
+    ServiceId INT AUTO_INCREMENT PRIMARY KEY,
+    ServiceName VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE
+);
+
+CREATE TABLE Topics (
+    TopicId INT AUTO_INCREMENT PRIMARY KEY,
+    TopicName VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE
+);
+
+CREATE TABLE Users (
+    UserId INT AUTO_INCREMENT PRIMARY KEY,
+    FullName VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    Email VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE sysdiagrams (
+    name VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    principal_id INT NOT NULL,
+    diagram_id INT AUTO_INCREMENT PRIMARY KEY,
+    version INT NULL,
+    definition LONGBLOB NULL,
+    UNIQUE (principal_id, name)
+);
+
+CREATE TABLE ArticleTopics (
+    ArticleId INT NOT NULL,
+    TopicId INT NOT NULL,
+    PRIMARY KEY (ArticleId, TopicId),
+    FOREIGN KEY (ArticleId) REFERENCES Articles(ArticleId) ON DELETE CASCADE,
+    FOREIGN KEY (TopicId) REFERENCES Topics(TopicId) ON DELETE CASCADE
+);
+
+CREATE TABLE Newsletters (
+    NewsletterId INT AUTO_INCREMENT PRIMARY KEY,
+    ServiceId INT NOT NULL,
+    Title VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    Content TEXT COLLATE utf8mb4_unicode_ci NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ServiceId) REFERENCES Services(ServiceId) ON DELETE CASCADE
+);
+
+CREATE TABLE SentMails (
+    SentMailId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    NewsletterId INT NOT NULL,
+    SentAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (NewsletterId) REFERENCES Newsletters(NewsletterId) ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
+);
+
+CREATE TABLE Subscriptions (
+    SubscriptionId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    ServiceId INT NOT NULL,
+    SubscribedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ServiceId) REFERENCES Services(ServiceId) ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
+);
+
+CREATE TABLE UserTopicSubscriptions (
+    SubscriptionId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    TopicId INT NOT NULL,
+    SubscribedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (TopicId) REFERENCES Topics(TopicId) ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
+);
