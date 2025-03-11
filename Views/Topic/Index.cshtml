@@ -1,0 +1,32 @@
+@model IEnumerable<Btl_web_nc.Models.Topic>
+@{
+    ViewData["Title"] = "Topic Page";
+}
+
+<h1>Danh sách chủ đề</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên chủ đề</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TopicId</td>
+                <td>@item.TopicName</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.TopicId">Sửa</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.TopicName">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a class="btn btn-success" asp-action="Create">Thêm mới</a>
+</div>

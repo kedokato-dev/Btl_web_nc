@@ -1,3 +1,3 @@
 ###
 Web NC 
-Asp.net core mvc + my sql trên ubuntu
+Asp.net core mvc + my sql trên linux mint

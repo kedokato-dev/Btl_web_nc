@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Btl_web_nc.props" />
+</Project>
