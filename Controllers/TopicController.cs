@@ -12,11 +12,11 @@ namespace Btl_web_nc.Controllers
 {
     public class TopicController : Controller
     {
-               private readonly NewsletterDBContext dBContext;
+        private readonly NewsletterDBContext dBContext;
 
         public TopicController(NewsletterDBContext newsletterDB)
         {
-           dBContext = newsletterDB; 
+            dBContext = newsletterDB;
         }
 
         public IActionResult Index()
