@@ -26,12 +26,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/quan/WorkSpace/Btl_web_nc/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/quan/WorkSpace/Btl_web_nc/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/quan/WorkSpace/Btl_web_nc/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Index.cshtml]

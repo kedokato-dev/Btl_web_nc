@@ -1,10 +1,14 @@
 using Btl_web_nc.Models;
+using Btl_web_nc.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ITopicRepository, TopicRepository>();
 
 
 // Cấu hình MySQL cho EF Core
@@ -13,6 +17,7 @@ builder.Services.AddDbContext<NewsletterDBContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+
 
 var app = builder.Build();
 

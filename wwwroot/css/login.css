@@ -1,0 +1,146 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.auth-container {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.auth-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.auth-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-custom {
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+    padding: 1rem;
+}
+
+/* Điều chỉnh tab đăng nhập/đăng ký */
+.card-header-tabs .nav-link {
+    color: #ffffff !important; /* Màu trắng cho tất cả tab */
+    transition: all 0.3s ease;
+    border-radius: 0;
+    padding: 0.75rem 1.25rem;
+    border: none !important;
+}
+
+.card-header-tabs .nav-link:hover {
+    opacity: 0.9;
+}
+
+.card-header-tabs .nav-link.active {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-bottom: none !important; /* Bỏ thanh gạch chân */
+    color: #ffffff !important;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Thêm hiệu ứng sáng nhẹ */
+}
+
+/* CSS khác giữ nguyên */
+.card-body {
+    padding: 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3a7bd5;
+    box-shadow: 0 0 0 0.2rem rgba(58, 123, 213, 0.15);
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 2.85rem;
+    color: #6c757d;
+}
+
+.icon-input {
+    padding-left: 2.5rem;
+}
+
+.custom-btn {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+    border: none;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #2e62aa, #00b3d9);
+    transform: translateY(-2px);
+}
+
+.btn-register {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    border: none;
+}
+
+.btn-register:hover {
+    background: linear-gradient(135deg, #0e7d74, #32d76f);
+    transform: translateY(-2px);
+}
+
+.form-check-label a {
+    color: #3a7bd5;
+    transition: color 0.3s ease;
+}
+
+.form-check-label a:hover {
+    color: #00d2ff;
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+.tab-pane {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-heading {
+    color: #3a7bd5;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.forgot-password {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: #3a7bd5;
+}

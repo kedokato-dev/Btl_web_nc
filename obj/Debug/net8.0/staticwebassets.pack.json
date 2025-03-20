@@ -5,12 +5,28 @@
       "PackagePath": "staticwebassets/Btl_web_nc.bundle.scp.css"
     },
     {
+      "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/css/layout.css",
+      "PackagePath": "staticwebassets/css/layout.css"
+    },
+    {
+      "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/css/login.css",
+      "PackagePath": "staticwebassets/css/login.css"
+    },
+    {
       "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
       "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/images/SmartPOST.png",
+      "PackagePath": "staticwebassets/images/SmartPOST.png"
+    },
+    {
+      "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/images/logo.png",
+      "PackagePath": "staticwebassets/images/logo.png"
     },
     {
       "Id": "/home/quan/WorkSpace/Btl_web_nc/wwwroot/js/site.js",

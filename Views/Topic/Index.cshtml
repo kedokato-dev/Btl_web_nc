@@ -1,32 +1,77 @@
 @model IEnumerable<Btl_web_nc.Models.Topic>
 @{
-    ViewData["Title"] = "Topic Page";
+    ViewData["Title"] = "Quản lý chủ đề";
 }
 
-<h1>Danh sách chủ đề</h1>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="bi bi-tag-fill me-2"></i>Danh sách chủ đề</h2>
+        <a class="btn btn-success" asp-action="Create">
+            <i class="bi bi-plus-circle me-1"></i> Thêm mới
+        </a>
+    </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tên chủ đề</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.TopicId</td>
-                <td>@item.TopicName</td>
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.TopicId">Sửa</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.TopicName">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-<div>
-    <a class="btn btn-success" asp-action="Create">Thêm mới</a>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info m-3 mb-0">
+                    <i class="bi bi-info-circle me-2"></i> Chưa có chủ đề nào. Hãy thêm mới!
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 10%;" class="text-center">ID</th>
+                                <th style="width: 70%;">Tên chủ đề</th>
+                                <th style="width: 20%;" class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center fw-bold">@item.TopicId</td>
+                                    <td>@item.TopicName</td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Sửa">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Kích hoạt tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+}

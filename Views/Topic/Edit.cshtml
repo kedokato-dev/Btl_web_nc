@@ -1,0 +1,28 @@
+@model Btl_web_nc.Models.Topic
+@{
+    ViewData["Title"] = "Sửa chủ đề";
+}
+
+<h1>Sửa chủ đề</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TopicId" />
+            <div class="form-group mb-3">
+                <label asp-for="TopicName" class="control-label">Tên chủ đề</label>
+                <input asp-for="TopicName" class="form-control" />
+                <span asp-validation-for="TopicName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

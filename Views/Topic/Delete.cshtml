@@ -1,0 +1,26 @@
+@model Btl_web_nc.Models.Topic
+@{
+    ViewData["Title"] = "Xóa chủ đề";
+}
+
+<h1>Xác nhận xóa</h1>
+
+<div class="alert alert-danger">
+    <h3>Bạn có chắc chắn muốn xóa chủ đề này?</h3>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.TopicId</dd>
+        <dt class="col-sm-2">Tên chủ đề</dt>
+        <dd class="col-sm-10">@Model.TopicName</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.TopicId" />
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
