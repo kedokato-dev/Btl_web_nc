@@ -70,15 +70,35 @@
 
                     <!-- Auth Buttons -->
                     <div class="d-flex auth-buttons">
-                        <!-- Auth Buttons -->
-                        <div class="d-flex auth-buttons">
-                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                asp-controller="Login" asp-action="Index">Đăng nhập</a>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user me-1"></i>@User.Identity.Name
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Trang cá
+                                            nhân</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" asp-controller="Login" asp-action="Logout">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" 
+                                           && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Login"
+                            asp-action="Index">Đăng nhập</a>
 
-                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                asp-controller="Register" asp-action="Index">Đăng ký</a>
-                        </div>
-
+                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Register" 
+                                       && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
+                            asp-controller="Register" asp-action="Index">Đăng ký</a>
+                                                }
                     </div>
                 </div>
             </div>
