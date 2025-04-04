@@ -27,27 +27,32 @@ namespace Btl_web_nc.Services
                 throw new Exception("Email này đã được đăng ký trước đó.");
             }
 
+            // Set default values
             user.IsEmailConfirmed = false;
+            user.CreatedAt = DateTime.Now;
+
+            // Save user to database
             await _registerRepository.AddUser(user);
 
             try
             {
-                // Bỏ comment dòng này để gửi email
+                // Send confirmation email
                 await SendConfirmationEmail(user.Email);
                 
-                // Nếu muốn tự động xác nhận email, không cần gửi email thật, giữ dòng này
+                // Comment this line if you want email verification to be required
                 // await _registerRepository.ConfirmEmail(user.Email);
             }
             catch (Exception ex)
             {
-                // Ghi log lỗi nhưng vẫn cho phép đăng ký thành công
+                // Log error but still allow registration
                 Console.WriteLine($"Không thể gửi email xác nhận: {ex.Message}");
                 
-                // Tự động xác nhận email nếu gửi email thất bại
+                // Auto-confirm email if sending fails
                 await _registerRepository.ConfirmEmail(user.Email);
             }
         }
 
+        // Rest of the class remains unchanged
         private async Task SendConfirmationEmail(string email)
         {
             try

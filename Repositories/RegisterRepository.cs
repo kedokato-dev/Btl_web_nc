@@ -1,30 +1,36 @@
 using Btl_web_nc.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Btl_web_nc.Repositories
 {
     public class RegisterRepository : IRegisterRepository
     {
-        private readonly List<User> _users = new();
+        private readonly NewsletterDBContext _context;
+
+        public RegisterRepository(NewsletterDBContext context)
+        {
+            _context = context;
+        }
 
         public async Task AddUser(User user)
         {
-            _users.Add(user);
-            await Task.CompletedTask;
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<User?> GetUserByEmail(string email)
         {
-            return await Task.FromResult(_users.FirstOrDefault(u => u.Email == email));
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task ConfirmEmail(string email)
         {
-            var user = _users.FirstOrDefault(u => u.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
                 user.IsEmailConfirmed = true;
+                await _context.SaveChangesAsync();
             }
-            await Task.CompletedTask;
         }
     }
 }

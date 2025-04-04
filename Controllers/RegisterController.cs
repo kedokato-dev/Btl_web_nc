@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Btl_web_nc.Models;
 using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Btl_web_nc.Controllers
 {
@@ -27,6 +28,13 @@ namespace Btl_web_nc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(string Name, string Email, string Password, string ConfirmPassword)
         {
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Email) || 
+                string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(ConfirmPassword))
+            {
+                ModelState.AddModelError("", "Vui lòng điền đầy đủ thông tin.");
+                return View();
+            }
+            
             if (Password != ConfirmPassword)
             {
                 ModelState.AddModelError("", "Mật khẩu và xác nhận mật khẩu không khớp.");
@@ -38,7 +46,8 @@ namespace Btl_web_nc.Controllers
                 FullName = Name,
                 Email = Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(Password), // Hash mật khẩu
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                IsEmailConfirmed = false
             };
 
             try
@@ -46,6 +55,12 @@ namespace Btl_web_nc.Controllers
                 await _registerService.RegisterUser(user);
                 TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác thực.";
                 return RedirectToAction("Index", "Login");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle database-specific errors
+                ModelState.AddModelError("", "Lỗi cơ sở dữ liệu: " + ex.InnerException?.Message ?? ex.Message);
+                return View();
             }
             catch (Exception ex)
             {
@@ -63,9 +78,17 @@ namespace Btl_web_nc.Controllers
                 return BadRequest("Email không hợp lệ.");
             }
 
-            await _registerService.ConfirmEmail(email);
-            TempData["SuccessMessage"] = "Email đã được xác thực thành công!";
-            return RedirectToAction("Index", "Login");
+            try
+            {
+                await _registerService.ConfirmEmail(email);
+                TempData["SuccessMessage"] = "Email đã được xác thực thành công!";
+                return RedirectToAction("Index", "Login");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Không thể xác thực email: " + ex.Message;
+                return RedirectToAction("Index", "Login");
+            }
         }
     }
 }
