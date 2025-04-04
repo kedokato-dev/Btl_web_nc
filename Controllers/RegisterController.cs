@@ -16,6 +16,7 @@ namespace Btl_web_nc.Controllers
         }
 
         // Hiển thị trang đăng ký
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -24,7 +25,6 @@ namespace Btl_web_nc.Controllers
         // Xử lý đăng ký
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Register")]
         public async Task<IActionResult> Index(string Name, string Email, string Password, string ConfirmPassword)
         {
             if (Password != ConfirmPassword)

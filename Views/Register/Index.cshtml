@@ -12,8 +12,16 @@
                     <h3 class="text-center">Đăng ký tài khoản mới</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-controller="Register" method="post">
+                    <form asp-controller="Register" asp-action="Index" method="post">
                          @Html.AntiForgeryToken()
+                         
+                         @if (!ViewData.ModelState.IsValid)
+                         {
+                            <div class="text-danger">
+                                @Html.ValidationSummary(false)
+                            </div>
+                         }
+                         
                         <div class="form-group">
                             <label for="registerName">Họ và tên</label>
                             <i class="fas fa-user input-icon"></i>
