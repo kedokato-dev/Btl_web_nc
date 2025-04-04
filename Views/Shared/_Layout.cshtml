@@ -73,10 +73,10 @@
                         <!-- Auth Buttons -->
                         <div class="d-flex auth-buttons">
                             <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                asp-controller="Login" asp-action="Index" asp-fragment="login">Đăng nhập</a>
+                                asp-controller="Login" asp-action="Index">Đăng nhập</a>
 
                             <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                asp-controller="Login" asp-action="Index" asp-fragment="register">Đăng ký</a>
+                                asp-controller="Register" asp-action="Index">Đăng ký</a>
                         </div>
 
                     </div>

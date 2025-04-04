@@ -1,5 +1,6 @@
 using Btl_web_nc.Models;
 using Btl_web_nc.Repositories;
+using Btl_web_nc.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+builder.Services.AddScoped<IRegisterRepository, RegisterRepository>();
+builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<RegisterService>();
+
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+
 
 
 // Cấu hình MySQL cho EF Core

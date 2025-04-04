@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
+
+<div class="container auth-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card auth-card">
+                <div class="card-header card-header-custom text-white">
+                    <h3 class="text-center">Đăng ký tài khoản mới</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Register" method="post">
+                         @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label for="registerName">Họ và tên</label>
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" class="form-control icon-input" id="registerName" name="Name"
+                                placeholder="Nhập họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-control icon-input" id="registerEmail" name="Email"
+                                placeholder="Nhập địa chỉ email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Mật khẩu</label>
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control icon-input" id="registerPassword"
+                                name="Password" placeholder="Tạo mật khẩu" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerConfirmPassword">Xác nhận mật khẩu</label>
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control icon-input" id="registerConfirmPassword"
+                                name="ConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" name="AgreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">Tôi đồng ý với <a href="#">điều khoản sử dụng</a> và <a href="#">chính sách bảo mật</a></label>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block custom-btn btn-register mt-4">
+                            <i class="fas fa-user-plus mr-2"></i>Đăng ký
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

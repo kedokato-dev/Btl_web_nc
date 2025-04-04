@@ -9,59 +9,69 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Btl_web_nc
 build_property.RootNamespace = Btl_web_nc
-build_property.ProjectDir = /home/quan/WorkSpace/Btl_web_nc/
+build_property.ProjectDir = F:\WorkSpace\Btl_web_nc\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/quan/WorkSpace/Btl_web_nc
+build_property.MSBuildProjectDirectory = F:\WorkSpace\Btl_web_nc
 build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+[F:/WorkSpace/Btl_web_nc/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[F:/WorkSpace/Btl_web_nc/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Login/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
+[F:/WorkSpace/Btl_web_nc/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+[F:/WorkSpace/Btl_web_nc/Views/Register/EmailConfirmed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcRW1haWxDb25maXJtZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[F:/WorkSpace/Btl_web_nc/Views/Register/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvQ3JlYXRlLmNzaHRtbA==
+[F:/WorkSpace/Btl_web_nc/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvRGVsZXRlLmNzaHRtbA==
+[F:/WorkSpace/Btl_web_nc/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvRWRpdC5jc2h0bWw=
+[F:/WorkSpace/Btl_web_nc/Views/Topic/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9waWNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Topic/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9waWMvSW5kZXguY3NodG1s
+[F:/WorkSpace/Btl_web_nc/Views/Topic/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9waWNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[F:/WorkSpace/Btl_web_nc/Views/Topic/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9waWNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[F:/WorkSpace/Btl_web_nc/Views/Topic/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9waWNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/quan/WorkSpace/Btl_web_nc/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-16mtk9e1pw
+[F:/WorkSpace/Btl_web_nc/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/WorkSpace/Btl_web_nc/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/WorkSpace/Btl_web_nc/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-kmrwtlvrd9

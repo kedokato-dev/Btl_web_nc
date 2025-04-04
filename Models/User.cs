@@ -18,6 +18,8 @@ namespace Btl_web_nc.Models
         public string PasswordHash { get; set; } = null!;
         public DateTime? CreatedAt { get; set; }
 
+        public bool IsEmailConfirmed { get; set; } = false;
+
         public virtual ICollection<SentMail> SentMails { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
         public virtual ICollection<UserTopicSubscription> UserTopicSubscriptions { get; set; }

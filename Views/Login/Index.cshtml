@@ -1,164 +1,43 @@
 @{
-    ViewData["Title"] = "Đăng nhập / Đăng ký";
+    ViewData["Title"] = "Đăng nhập";
 }
 
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
 
-    <div class="container auth-container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="card auth-card">
-                    <div class="card-header card-header-custom text-white">
-                        <ul class="nav nav-tabs card-header-tabs" id="auth-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab">
-                                    Đăng nhập
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab">
-                                    Đăng ký
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="auth-tabs-content">
-                            <!-- Đăng nhập Form -->
-                            <div class="tab-pane fade show active" id="login" role="tabpanel">
-                                <h3 class="text-center form-heading">Đăng nhập tài khoản</h3>
-                                <form asp-controller="Account" asp-action="Login" method="post">
-                                    <div class="form-group">
-                                        <label for="loginEmail">Email</label>
-                                        <i class="fas fa-envelope input-icon"></i>
-                                        <input type="email" class="form-control icon-input" id="loginEmail" name="Email"
-                                            placeholder="Nhập địa chỉ email" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="loginPassword">Mật khẩu</label>
-                                        <i class="fas fa-lock input-icon"></i>
-                                        <input type="password" class="form-control icon-input" id="loginPassword"
-                                            name="Password" placeholder="Nhập mật khẩu" required>
-                                    </div>
-                                    <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="rememberMe" name="RememberMe">
-                                        <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-block custom-btn btn-login mt-4">
-                                        <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
-                                    </button>
-                                    <div class="text-center mt-4">
-                                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- Đăng ký Form -->
-                            <div class="tab-pane fade" id="register" role="tabpanel">
-                                <h3 class="text-center form-heading">Đăng ký tài khoản mới</h3>
-                                <form asp-controller="Account" asp-action="Register" method="post">
-                                    <div class="form-group">
-                                        <label for="registerName">Họ và tên</label>
-                                        <i class="fas fa-user input-icon"></i>
-                                        <input type="text" class="form-control icon-input" id="registerName" name="Name"
-                                            placeholder="Nhập họ và tên" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="registerEmail">Email</label>
-                                        <i class="fas fa-envelope input-icon"></i>
-                                        <input type="email" class="form-control icon-input" id="registerEmail" name="Email"
-                                            placeholder="Nhập địa chỉ email" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="registerPassword">Mật khẩu</label>
-                                        <i class="fas fa-lock input-icon"></i>
-                                        <input type="password" class="form-control icon-input" id="registerPassword"
-                                            name="Password" placeholder="Tạo mật khẩu" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="registerConfirmPassword">Xác nhận mật khẩu</label>
-                                        <i class="fas fa-lock input-icon"></i>
-                                        <input type="password" class="form-control icon-input" id="registerConfirmPassword"
-                                            name="ConfirmPassword" placeholder="Xác nhận mật khẩu" required>
-                                    </div>
-                                    <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="agreeTerms" name="AgreeTerms"
-                                            required>
-                                        <label class="form-check-label" for="agreeTerms">Tôi đồng ý với <a href="#">điều
-                                                khoản sử dụng</a> và <a href="#">chính sách bảo mật</a></label>
-                                    </div>
-                                    <button type="submit" class="btn btn-success btn-block custom-btn btn-register mt-4">
-                                        <i class="fas fa-user-plus mr-2"></i>Đăng ký
-                                    </button>
-                                </form>
-                            </div>
+<div class="container auth-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card auth-card">
+                <div class="card-header card-header-custom text-white">
+                    <h3 class="text-center">Đăng nhập</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Login" asp-action="Login" method="post">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-control icon-input" id="loginEmail" name="Email"
+                                placeholder="Nhập địa chỉ email" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control icon-input" id="loginPassword"
+                                name="Password" placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="RememberMe">
+                            <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block custom-btn btn-login mt-4">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
+                        </button>
+                        <div class="text-center mt-4">
+                            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-@section Scripts {
-    <script>
-        $(function () {
-            // Function to switch tabs based on hash
-            function switchTabBasedOnHash() {
-                var hash = window.location.hash;
-                if (hash && (hash === '#login' || hash === '#register')) {
-                    $('#auth-tabs a[href="' + hash + '"]').tab('show');
-                    
-                    // Manually update active state
-                    $('#auth-tabs a').removeClass('active');
-                    $('#auth-tabs a[href="' + hash + '"]').addClass('active');
-                    
-                    // Update tab panes
-                    $('.tab-pane').removeClass('show active');
-                    $(hash).addClass('show active');
-                }
-            }
-            
-            // Check hash on page load
-            switchTabBasedOnHash();
-            
-            // Listen for hash changes (when navbar buttons are clicked)
-            window.addEventListener('hashchange', switchTabBasedOnHash);
-            
-            // Tab click handler (unchanged)
-            $('#auth-tabs a').on('click', function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-
-                // Add active class manually and remove from other tabs
-                $(this).addClass('active');
-                $('#auth-tabs a').not(this).removeClass('active');
-
-                // Update tab panes
-                var targetId = $(this).attr('href');
-                $(targetId).addClass('show active');
-                $('.tab-pane').not(targetId).removeClass('show active');
-                
-                // Update URL hash without page jump
-                if (history.pushState) {
-                    history.pushState(null, null, targetId);
-                } else {
-                    location.hash = targetId;
-                }
-            });
-
-            // Form validation (unchanged)
-            $('form').on('submit', function (e) {
-                var form = $(this);
-                if (form[0].checkValidity() === false) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                form.addClass('was-validated');
-            });
-        });
-    </script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-}
+</div>
