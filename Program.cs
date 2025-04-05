@@ -33,12 +33,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Login";
         options.LogoutPath = "/Login/Logout";
-        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.AccessDeniedPath = "/Login/AccessDenied";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+     options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
+});
 
 
 var app = builder.Build();

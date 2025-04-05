@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Btl_web_nc.Models;
 using Btl_web_nc.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Btl_web_nc.Controllers
 {
+    [Authorize(Roles = "Admin")] // chỉ cho admin vào thôi
     public class TopicController : Controller
     {
         private readonly ITopicRepository _topicRepository;

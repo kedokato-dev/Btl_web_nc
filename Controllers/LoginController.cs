@@ -27,7 +27,7 @@ namespace Btl_web_nc.Controllers
             // Nếu đã đăng nhập thì chuyển hướng về trang chủ
             if (User.Identity?.IsAuthenticated == true)
             {
-                return RedirectToAction("Index", "Topic");
+                return RedirectToAction("Index", "Home");
             }
             
             return View(new LoginViewModel());
@@ -58,6 +58,7 @@ namespace Btl_web_nc.Controllers
             // Tạo claims cho người dùng
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.Role, LoginService.GetRoleName(user.RoleId)), // ánh xạ vai trò
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.FullName)
@@ -77,19 +78,24 @@ namespace Btl_web_nc.Controllers
                 authProperties);
 
             _logger.LogInformation($"User {user.Email} logged in at {DateTime.Now}");
-            return RedirectToAction("Index", "Topic");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Topic");
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View("Error!");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View("AccessDenied");
         }
     }
 }

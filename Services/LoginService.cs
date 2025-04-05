@@ -19,7 +19,7 @@ namespace Btl_web_nc.Services
         {
             return await _loginRepository.GetAllUsers();
         }
-        
+
         public async Task<User?> GetUserById(int id)
         {
             return await _loginRepository.GetUserById(id);
@@ -28,14 +28,26 @@ namespace Btl_web_nc.Services
         public async Task<User?> AuthenticateUser(string email, string password)
         {
             var user = await _loginRepository.GetUserByUsername(email);
-            
+
             if (user == null)
                 return null;
-                
+
             // Xác thực mật khẩu sử dụng BCrypt
             bool verified = BC.Verify(password, user.PasswordHash);
-            
+
             return verified ? user : null;
         }
+
+        public static string GetRoleName(int roleId)
+        {
+            return roleId switch
+            {
+                0 => "Admin",
+                1 => "Customer",
+                2 => "Banned",
+                _ => "Unknown"  // Vai trò mặc định nếu không khớp
+            };
+        }
+
     }
 }
