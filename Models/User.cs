@@ -20,6 +20,8 @@ namespace Btl_web_nc.Models
 
         public bool IsEmailConfirmed { get; set; } = false;
 
+        public int RoleId { get; set; } = 2; // Default to User role
+
         public virtual ICollection<SentMail> SentMails { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
         public virtual ICollection<UserTopicSubscription> UserTopicSubscriptions { get; set; }

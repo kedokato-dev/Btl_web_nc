@@ -13,6 +13,7 @@ namespace Btl_web_nc.Models
 
         public int TopicId { get; set; }
         public string TopicName { get; set; } = null!;
+        public bool IsActive { get; set; }
 
         public virtual ICollection<UserTopicSubscription> UserTopicSubscriptions { get; set; }
 

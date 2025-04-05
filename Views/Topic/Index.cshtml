@@ -34,7 +34,8 @@
                         <thead class="table-light">
                             <tr>
                                 <th style="width: 10%;" class="text-center">ID</th>
-                                <th style="width: 70%;">Tên chủ đề</th>
+                                <th style="width: 50%;">Tên chủ đề</th>
+                                <th style="width: 20%;" class="text-center">Chủ đề hot</th>
                                 <th style="width: 20%;" class="text-center">Thao tác</th>
                             </tr>
                         </thead>
@@ -44,12 +45,15 @@
                                 <tr>
                                     <td class="text-center fw-bold">@item.TopicId</td>
                                     <td>@item.TopicName</td>
+                                   <td class="text-center">@(item.IsActive ? "Có" : "Không")</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Sửa">
+                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit"
+                                                asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Sửa">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
-                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Xóa">
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete"
+                                                asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Xóa">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>
@@ -67,7 +71,7 @@
 @section Scripts {
     <script>
         // Kích hoạt tooltips
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)

@@ -18,6 +18,7 @@ namespace Btl_web_nc.Controllers
             _topicRepository = topicRepository;
         }
 
+
         public async Task<IActionResult> Index()
         {
             var topics = await _topicRepository.GetAllAsync();

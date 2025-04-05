@@ -15,6 +15,16 @@
                 <input asp-for="TopicName" class="form-control" />
                 <span asp-validation-for="TopicName" class="text-danger"></span>
             </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="IsActive" class="control-label">Chủ đề hot</label>
+                <select asp-for="IsActive" class="form-control">
+                    <option value="true">Có</option>
+                    <option value="false">Không</option>
+                </select>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Lưu</button>
                 <a asp-action="Index" class="btn btn-secondary">Quay lại</a>

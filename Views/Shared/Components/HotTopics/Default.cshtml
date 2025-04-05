@@ -1,0 +1,10 @@
+@model IEnumerable<Btl_web_nc.Models.Topic>
+
+@foreach (var topic in Model)
+{
+    <li><a class="dropdown-item" href="#">@topic.TopicName</a></li>
+}
+<li>
+    <hr class="dropdown-divider">
+</li>
+<li><a class="dropdown-item" href="#">Xem tất cả</a></li>

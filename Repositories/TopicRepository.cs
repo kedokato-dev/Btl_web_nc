@@ -21,6 +21,12 @@ namespace Btl_web_nc.Repositories
             return await _context.Topics.ToListAsync();
         }
 
+        public async Task<IEnumerable<Topic>> GetHotTopics()
+        {
+            // Assuming you have a property to determine if a topic is "hot"
+            return await _context.Topics.Where(t => t.IsActive == true).ToListAsync();
+        }
+
         public async Task<Topic?> GetByIdAsync(int id)
         {
             return await _context.Topics.FindAsync(id);
