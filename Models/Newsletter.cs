@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Btl_web_nc.Models
+namespace Btl_web_nc.Models;
+
+public partial class Newsletter
 {
-    public partial class Newsletter
-    {
-        public Newsletter()
-        {
-            SentMails = new HashSet<SentMail>();
-        }
+    public int Id { get; set; }
 
-        public int NewsletterId { get; set; }
-        public int ServiceId { get; set; }
-        public string Title { get; set; } = null!;
-        public string Content { get; set; } = null!;
-        public DateTime? CreatedAt { get; set; }
+    public int TopicId { get; set; }
 
-        public virtual Service Service { get; set; } = null!;
-        public virtual ICollection<SentMail> SentMails { get; set; }
-    }
+    public string Name { get; set; } = null!;
+
+    public string? Description { get; set; }
+
+    public string RssUrl { get; set; } = null!;
+
+    public DateTime? CreatedAt { get; set; }
+
+    public virtual ICollection<Article> Articles { get; set; } = new List<Article>();
+
+    public virtual ICollection<EmailLog> EmailLogs { get; set; } = new List<EmailLog>();
+
+    public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
+
+    public virtual Topic Topic { get; set; } = null!;
 }

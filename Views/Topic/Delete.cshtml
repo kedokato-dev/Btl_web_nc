@@ -12,13 +12,13 @@
 <div>
     <dl class="row">
         <dt class="col-sm-2">ID</dt>
-        <dd class="col-sm-10">@Model.TopicId</dd>
+        <dd class="col-sm-10">@Model.Id</dd>
         <dt class="col-sm-2">Tên chủ đề</dt>
-        <dd class="col-sm-10">@Model.TopicName</dd>
+        <dd class="col-sm-10">@Model.Name</dd>
     </dl>
 
     <form asp-action="Delete" method="post">
-        <input type="hidden" name="id" value="@Model.TopicId" />
+        <input type="hidden" name="id" value="@Model.Id" />
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
         <a asp-action="Index" class="btn btn-secondary">Quay lại</a>

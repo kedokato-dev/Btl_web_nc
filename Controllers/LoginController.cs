@@ -64,9 +64,9 @@ namespace Btl_web_nc.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Role, LoginService.GetRoleName(user.RoleId)), // ánh xạ vai trò
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.FullName)
+                new Claim(ClaimTypes.Name, user.Name ?? string.Empty),  
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

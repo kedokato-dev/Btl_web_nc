@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Btl_web_nc.Models;
 
-public partial class Subscription
+public partial class EmailLog
 {
     public int Id { get; set; }
 
@@ -11,11 +11,11 @@ public partial class Subscription
 
     public int NewsletterId { get; set; }
 
-    public string? Frequency { get; set; }
+    public DateTime? SentAt { get; set; }
 
-    public DateTime? LastSentAt { get; set; }
+    public string? Subject { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public string? Status { get; set; }
 
     public virtual Newsletter Newsletter { get; set; } = null!;
 

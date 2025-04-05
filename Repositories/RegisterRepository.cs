@@ -1,3 +1,4 @@
+using Btl_web_nc.Data;
 using Btl_web_nc.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,9 +6,9 @@ namespace Btl_web_nc.Repositories
 {
     public class RegisterRepository : IRegisterRepository
     {
-        private readonly NewsletterDBContext _context;
+        private readonly AppDbContext _context;
 
-        public RegisterRepository(NewsletterDBContext context)
+        public RegisterRepository(AppDbContext context)
         {
             _context = context;
         }

@@ -59,7 +59,7 @@ namespace Btl_web_nc.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Topic topic)
         {
-            if (id != topic.TopicId)
+            if (id != topic.Id)
             {
                 return BadRequest();
             }

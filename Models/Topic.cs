@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Btl_web_nc.Models
+namespace Btl_web_nc.Models;
+
+public partial class Topic
 {
-    public partial class Topic
-    {
-        public Topic()
-        {
-            UserTopicSubscriptions = new HashSet<UserTopicSubscription>();
-            Articles = new HashSet<Article>();
-        }
+    public int Id { get; set; }
 
-        public int TopicId { get; set; }
-        public string TopicName { get; set; } = null!;
-        public bool IsActive { get; set; }
+    public string Name { get; set; } = null!;
 
-        public virtual ICollection<UserTopicSubscription> UserTopicSubscriptions { get; set; }
+    public string? Description { get; set; }
 
-        public virtual ICollection<Article> Articles { get; set; }
-    }
+    public DateTime? CreatedAt { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    public virtual ICollection<Newsletter> Newsletters { get; set; } = new List<Newsletter>();
 }

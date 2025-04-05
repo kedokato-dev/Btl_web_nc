@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Btl_web_nc.Data;
 using Btl_web_nc.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,9 @@ namespace Btl_web_nc.Repositories
 {
     public class TopicRepository : ITopicRepository
     {
-        private readonly NewsletterDBContext _context;
+        private readonly AppDbContext _context;
 
-        public TopicRepository(NewsletterDBContext context)
+        public TopicRepository(AppDbContext context)
         {
             _context = context;
         }

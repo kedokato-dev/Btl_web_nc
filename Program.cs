@@ -1,3 +1,4 @@
+using Btl_web_nc.Data;
 using Btl_web_nc.Models;
 using Btl_web_nc.Repositories;
 using Btl_web_nc.Services;
@@ -28,7 +29,7 @@ builder.Services.AddScoped<NewsScraperService>();
 
 
 // Cấu hình MySQL cho EF Core
-builder.Services.AddDbContext<NewsletterDBContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

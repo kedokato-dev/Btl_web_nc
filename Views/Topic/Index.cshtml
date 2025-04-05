@@ -43,17 +43,17 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="text-center fw-bold">@item.TopicId</td>
-                                    <td>@item.TopicName</td>
-                                   <td class="text-center">@(item.IsActive ? "Có" : "Không")</td>
+                                    <td class="text-center fw-bold">@item.Id</td>
+                                    <td>@item.Name</td>
+                                   <td class="text-center">@(item.IsActive.HasValue && item.IsActive.Value ? "Có" : "Không")</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-outline-primary btn-sm" asp-action="Edit"
-                                                asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Sửa">
+                                                asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Sửa">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
                                             <a class="btn btn-outline-danger btn-sm" asp-action="Delete"
-                                                asp-route-id="@item.TopicId" data-bs-toggle="tooltip" title="Xóa">
+                                                asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Xóa">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>

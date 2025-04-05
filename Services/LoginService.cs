@@ -33,7 +33,7 @@ namespace Btl_web_nc.Services
                 return null;
 
             // Xác thực mật khẩu sử dụng BCrypt
-            bool verified = BC.Verify(password, user.PasswordHash);
+            bool verified = BC.Verify(password, user.PassWord);
 
             return verified ? user : null;
         }

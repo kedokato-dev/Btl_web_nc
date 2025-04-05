@@ -43,9 +43,9 @@ namespace Btl_web_nc.Controllers
 
             var user = new User
             {
-                FullName = Name,
+                Name = Name,
                 Email = Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(Password), // Hash mật khẩu
+                PassWord = BCrypt.Net.BCrypt.HashPassword(Password), // Hash mật khẩu
                 CreatedAt = DateTime.Now,
                 IsEmailConfirmed = false
             };

@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Btl_web_nc.Models
+namespace Btl_web_nc.Models;
+
+public partial class User
 {
-    public partial class User
-    {
-        public User()
-        {
-            SentMails = new HashSet<SentMail>();
-            Subscriptions = new HashSet<Subscription>();
-            UserTopicSubscriptions = new HashSet<UserTopicSubscription>();
-        }
+    public int Id { get; set; }
 
-        public int UserId { get; set; }
-        public string FullName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string PasswordHash { get; set; } = null!;
-        public DateTime? CreatedAt { get; set; }
+    public string Email { get; set; } = null!;
 
-        public bool IsEmailConfirmed { get; set; } = false;
+    public string? Name { get; set; }
 
-        public int RoleId { get; set; }   
+    public string PassWord { get; set; } = null!;
 
-        public virtual ICollection<SentMail> SentMails { get; set; }
-        public virtual ICollection<Subscription> Subscriptions { get; set; }
-        public virtual ICollection<UserTopicSubscription> UserTopicSubscriptions { get; set; }
-    }
+    public int RoleId { get; set; }
+
+    public bool IsEmailConfirmed { get; set; }
+
+    public TimeOnly? PreferredTime { get; set; }
+
+    public DateTime? CreatedAt { get; set; }
+
+    public virtual ICollection<EmailLog> EmailLogs { get; set; } = new List<EmailLog>();
+
+    public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 }
