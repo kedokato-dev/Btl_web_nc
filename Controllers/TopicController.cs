@@ -103,8 +103,5 @@ namespace Btl_web_nc.Controllers
             await _topicRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-
-
     }
 }

@@ -55,6 +55,11 @@ namespace Btl_web_nc.Controllers
                 return View("Index", model);
             }
 
+            if (user.RoleId == 2) // Kiểm tra nếu người dùng bị cấm
+            {
+                return RedirectToAction("Banned", "Login");
+            }
+
             // Tạo claims cho người dùng
             var claims = new List<Claim>
             {
@@ -96,6 +101,11 @@ namespace Btl_web_nc.Controllers
         public IActionResult AccessDenied()
         {
             return View("AccessDenied");
+        }
+
+        public IActionResult Banned()
+        {
+            return View("Banned");
         }
     }
 }

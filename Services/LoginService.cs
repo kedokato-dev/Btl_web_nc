@@ -43,7 +43,7 @@ namespace Btl_web_nc.Services
             return roleId switch
             {
                 0 => "Admin",
-                1 => "Customer",
+                1 => "User",
                 2 => "Banned",
                 _ => "Unknown"  // Vai trò mặc định nếu không khớp
             };
