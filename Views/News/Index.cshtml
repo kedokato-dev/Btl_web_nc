@@ -1,0 +1,9 @@
+@model List<string>
+
+<h1>Latest News from VNExpress</h1>
+<ul>
+    @foreach (var news in Model)
+    {
+        <li>@news</li>
+    }
+</ul>

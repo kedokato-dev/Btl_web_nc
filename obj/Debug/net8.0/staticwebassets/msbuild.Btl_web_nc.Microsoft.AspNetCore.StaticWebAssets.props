@@ -102,8 +102,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>i5q9nqxnk2</Fingerprint>
-      <Integrity>ptvNgo58prIac2I6AGg3rHQcWnfTXkqGfxk3IeVv8Qw=</Integrity>
+      <Fingerprint>p01z82ol7v</Fingerprint>
+      <Integrity>FwBt6jIzMGf8M96ZKnQ7LlJGQuO2ah+TjAPwrxp5Adk=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\logo.png'))</OriginalItemSpec>

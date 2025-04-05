@@ -223,3 +223,6 @@ F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\System.Text.Encodings.Web.dll
 F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\System.Text.Json.dll
 F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\BCrypt.Net-Next.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\HtmlAgilityPack.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\Microsoft.SyndicationFeed.ReaderWriter.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\System.ServiceModel.Syndication.dll

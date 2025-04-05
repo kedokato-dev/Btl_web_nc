@@ -20,6 +20,12 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
 
+// service rss feed
+builder.Services.AddScoped<RssFeedService>();
+
+// service scraper data
+builder.Services.AddScoped<NewsScraperService>();
+
 
 // Cấu hình MySQL cho EF Core
 builder.Services.AddDbContext<NewsletterDBContext>(options =>
