@@ -1,5 +1,42 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Btl_web_nc.Models.Newsletter>
+@{
+    ViewData["Title"] = "Trang chủ";
 }
 
+<link rel="stylesheet" href="~/css/home.css" />
 
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold">Bản tin điện tử</h1>
+        <p class="lead mt-3">Khám phá tin tức mới nhất từ các chủ đề yêu thích của bạn</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <!-- Topics Section -->
+    @foreach (var topic in Model.Select(n => n.Topic).Distinct())
+    {
+        <div class="section-spacing">
+            <h2 class="topic-header">@topic.Name</h2>
+            <div class="row g-4 mt-2">
+                @foreach (var newsletter in Model.Where(n => n.TopicId == topic.Id))
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 newsletter-card">
+                            <div class="card-body">
+                                <h5 class="card-title">@newsletter.Name</h5>
+                                <p class="card-description mt-3">@newsletter.Description</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0 pb-3">
+                                <a href="@Url.Action("Index", "News", new { newsletterId = newsletter.Id })" 
+                                   class="btn btn-view w-100">
+                                    <i class="bi bi-newspaper me-1"></i> Xem tin tức
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

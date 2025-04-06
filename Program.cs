@@ -22,7 +22,8 @@ builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
 
 // service rss feed
-builder.Services.AddScoped<RssFeedService>();
+// Thêm vào Program.cs trong phần ConfigureServices
+builder.Services.AddScoped<RssService>();
 
 // service scraper data
 builder.Services.AddScoped<NewsScraperService>();

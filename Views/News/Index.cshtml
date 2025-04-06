@@ -1,9 +1,73 @@
-@model List<string>
+@model Btl_web_nc.Models.NewsViewModel
 
-<h1>Latest News from VNExpress</h1>
-<ul>
-    @foreach (var news in Model)
-    {
-        <li>@news</li>
-    }
-</ul>
+@{
+    ViewData["Title"] = Model.Newsletter.Name;
+}
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <h1 class="mb-4">@Model.Newsletter.Name</h1>
+            <div class="row">
+                @foreach (var item in Model.Articles)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <a href="@item.Link" target="_blank">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" onerror="this.src='https://via.placeholder.com/350x200?text=No+Image';">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="@item.Link" class="text-dark text-decoration-none" target="_blank">@item.Title</a>
+                                </h5>
+                                <p class="card-text text-muted small">@item.PublishedAt?.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1, h5 {
+    font-weight: bold;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title a {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-title a:hover {
+    color: #007bff;
+}
+
+.list-group-item a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+}   
+</style>

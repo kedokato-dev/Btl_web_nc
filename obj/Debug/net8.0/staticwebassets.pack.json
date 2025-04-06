@@ -2,7 +2,11 @@
   "Files": [
     {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Btl_web_nc.bundle.scp.css",
-      "PackagePath": "staticwebassets\\Btl_web_nc.csll9zt1un.bundle.scp.css"
+      "PackagePath": "staticwebassets\\Btl_web_nc.6t1su48x5x.bundle.scp.css"
+    },
+    {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\home.css",
+      "PackagePath": "staticwebassets\\css\\home.css"
     },
     {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\layout.css",

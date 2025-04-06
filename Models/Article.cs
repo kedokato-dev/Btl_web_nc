@@ -19,5 +19,7 @@ public partial class Article
 
     public DateTime? CreatedAt { get; set; }
 
+    public string? ImageUrl { get; set; } 
+
     public virtual Newsletter Newsletter { get; set; } = null!;
 }

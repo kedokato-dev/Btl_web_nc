@@ -10,104 +10,48 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Btl_web_nc.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
+    
 </head>
 
 <body>
     <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-2">
+        <!-- Top Header - Logo, Search, Auth -->
+        <div class="top-header bg-white border-bottom py-2">
             <div class="container">
-                <!-- Logo -->
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.png" alt="Logo" height="50" class="me-2"
-                        onerror="this.src='https://via.placeholder.com/120x40?text=Logo'">
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-
-
-                <div class="navbar-collapse collapse d-lg-flex justify-content-between">
-
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link px-3 text-dark @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                    asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link px-3 text-dark @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")"
-                                    asp-area="" asp-controller="Topic" asp-action="Index">Chủ đề</a>
-
-                            <li class="nav-item">
-                                <a class="nav-link px-3 text-dark @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")"
-                                    asp-area="" asp-controller="Home" asp-action="Privacy">Tin mới</a>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle px-3 text-dark" href="#" id="navbarDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Chủ đề hot
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @await Component.InvokeAsync("HotTopics")
-                                </ul>
-                            </li>
-                        </ul>
-                    }else{
-                                                <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link px-3 text-dark @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                                asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3 text-dark @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")"
-                                asp-area="" asp-controller="Home" asp-action="Privacy">Tin mới</a>
-                        </li>
-                  
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle px-3 text-dark" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Chủ đề hot
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @await Component.InvokeAsync("HotTopics")
-                            </ul>
-                        </li>
-                    </ul>
-                    }
-
+                <div class="row align-items-center">
+                    <!-- Logo -->
+                    <div class="col-lg-3 col-md-4 col-6">
+                        <a class="header-logo d-block" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/logo.png" alt="Logo" class="img-fluid"
+                                onerror="this.src='https://via.placeholder.com/180x60?text=Logo'">
+                        </a>
+                    </div>
+                    
                     <!-- Search Bar -->
-                    <form class="d-flex mx-lg-4 my-2 my-lg-0">
-                        <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-
+                    <div class="col-lg-5 col-md-4 d-none d-md-block">
+                        <form class="header-search">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                                <button class="btn btn-outline-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
                     <!-- Auth Buttons -->
-                    <div class="d-flex auth-buttons">
+                    <div class="col-lg-4 col-md-4 col-6 text-end">
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <div class="dropdown">
+                            <div class="dropdown d-inline-block">
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user me-1"></i>@User.Identity.Name
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Trang cá
-                                            nhân</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Trang cá nhân</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" asp-controller="Login" asp-action="Logout">
                                             <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
                                 </ul>
@@ -115,19 +59,105 @@
                         }
                         else
                         {
-                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" 
-                                                                                                                                                                                                      && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                            asp-controller="Login" asp-action="Index">Đăng nhập</a>
+                            <a class="btn btn-outline-primary btn-sm me-2 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Login" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-controller="Login" asp-action="Index">Đăng nhập</a>
 
-                            <a class="btn btn-outline-primary me-2 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Register" 
-                                                                                                                                                                              && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
-                            asp-controller="Register" asp-action="Index">Đăng ký</a>
-                                                }
+                            <a class="btn btn-outline-primary btn-sm @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Register" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-controller="Register" asp-action="Index">Đăng ký</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Header - Main Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary py-0">
+            <div class="container">
+                <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Index">
+                                   <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Topic" ? "active" : "")"
+                                   asp-area="" asp-controller="Topic" asp-action="Index">Chủ đề</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Privacy">Tin mới</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdown"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Chủ đề hot
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @await Component.InvokeAsync("HotTopics")
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Index">
+                                   <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Privacy">Tin mới</a>
+                            </li>
+                      
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdown"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Chủ đề hot
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @await Component.InvokeAsync("HotTopics")
+                                </ul>
+                            </li>
+
+                            <!-- Thêm vào phần menu trong _Layout.cshtml -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "News", new { newsletterId = 1 })">Tin thời sự</a>
+                            </li>
+                        </ul>
+                    }
+                    
+                    <!-- Mobile Search -->
+                    <div class="d-block d-md-none mt-2 mb-3">
+                        <form class="header-search">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                                <button class="btn btn-outline-light" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+
+    <!-- Rest of the layout remains unchanged -->
 
 
     <div class="container my-4 flex-grow-1">
@@ -202,26 +232,49 @@
         </div>
     </footer>
 
+
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-
+        // Header scroll effect
         document.addEventListener('DOMContentLoaded', function () {
             const navbar = document.querySelector('.navbar');
-
+            const header = document.querySelector('header');
+            
             window.addEventListener('scroll', function () {
                 if (window.scrollY > 20) {
                     navbar.classList.add('scrolled');
+                    header.classList.add('compact');
                 } else {
                     navbar.classList.remove('scrolled');
+                    header.classList.remove('compact');
                 }
             });
+            
+            // Animation for footer elements
+            const footerElements = document.querySelectorAll('footer h5, footer .list-unstyled, footer .input-group');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            footerElements.forEach(el => {
+                el.style.opacity = "0";
+                el.style.transform = "translateY(20px)";
+                observer.observe(el);
+            });
         });
-
-
     </script>
+    
 </body>
 
 </html>
