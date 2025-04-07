@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,17 +21,15 @@ namespace Btl_web_nc.Repositories
             return await _context.Topics.ToListAsync();
         }
 
-        public async Task<IEnumerable<Topic>> GetHotTopics()
+        public async Task<IEnumerable<Topic>> GetHotTopicsAsync()
         {
-            // Assuming you have a property to determine if a topic is "hot"
-            return await _context.Topics.Where(t => t.IsActive == true).ToListAsync();
+            return await _context.Topics.Where(t => (bool)t.IsActive).ToListAsync();
         }
 
         public async Task<Topic?> GetByIdAsync(int id)
         {
             return await _context.Topics.FindAsync(id);
         }
-
 
         public async Task AddAsync(Topic topic)
         {
@@ -55,11 +52,5 @@ namespace Btl_web_nc.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-
-
-
-
-
     }
 }

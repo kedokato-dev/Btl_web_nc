@@ -66,6 +66,7 @@ namespace Btl_web_nc.Controllers
                 new Claim(ClaimTypes.Role, LoginService.GetRoleName(user.RoleId)), // ánh xạ vai trò
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name ?? string.Empty),  
             };
 

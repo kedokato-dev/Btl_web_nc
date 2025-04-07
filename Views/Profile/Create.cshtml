@@ -1,0 +1,44 @@
+@model Btl_web_nc.Models.User
+
+@{
+    ViewData["Title"] = "Tạo tài khoản mới";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary">Tạo tài khoản mới</h2>
+        <p class="text-muted">Nhập thông tin để tạo tài khoản mới</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" required />
+                </div>
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Tên</label>
+                    <input type="text" class="form-control" id="Name" name="Name" required />
+                </div>
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="Password" name="Password" required />
+                </div>
+                <div class="mb-3">
+                    <label for="RoleId" class="form-label">Vai trò</label>
+                    <select class="form-select" id="RoleId" name="RoleId">
+                        <option value="0">Quản trị viên</option>
+                        <option value="1">Người dùng</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="PreferredTime" class="form-label">Thời gian ưu tiên</label>
+                    <input type="time" class="form-control" id="PreferredTime" name="PreferredTime" />
+                </div>
+                <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>

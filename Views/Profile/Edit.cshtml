@@ -1,0 +1,40 @@
+@model Btl_web_nc.Models.User
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin cá nhân";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary">Chỉnh sửa thông tin cá nhân</h2>
+        <p class="text-muted">Cập nhật thông tin tài khoản của bạn</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Tên</label>
+                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" />
+                </div>
+                <div class="mb-3">
+                    <label for="RoleId" class="form-label">Vai trò</label>
+                    <select class="form-select" id="RoleId" name="RoleId">
+                        <option value="0" selected="@(Model.RoleId == 0)">Quản trị viên</option>
+                        <option value="1" selected="@(Model.RoleId == 1)">Người dùng</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="PreferredTime" class="form-label">Thời gian ưu tiên</label>
+                    <input type="time" class="form-control" id="PreferredTime" name="PreferredTime" value="@(Model.PreferredTime?.ToString("hh\\:mm"))" />
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+@model IEnumerable<Btl_web_nc.Models.User>
+@{
+    ViewData["Title"] = "Quản lý tài khoản";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="bi bi-people-fill me-2"></i>Danh sách tài khoản</h2>
+        <a class="btn btn-success" asp-action="Create">
+            <i class="bi bi-plus-circle me-1"></i> Thêm mới
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info m-3 mb-0">
+                    <i class="bi bi-info-circle me-2"></i> Chưa có tài khoản nào. Hãy thêm mới!
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 10%;" class="text-center">ID</th>
+                                <th style="width: 30%;">Email</th>
+                                <th style="width: 20%;">Tên</th>
+                                <th style="width: 15%;" class="text-center">Vai trò</th>
+                                <th style="width: 25%;" class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+                            {
+                                <tr>
+                                    <td class="text-center fw-bold">@user.Id</td>
+                                    <td>@user.Email</td>
+                                    <td>@(!string.IsNullOrWhiteSpace(user.Name) ? user.Name : "<span class='text-danger'>Chưa cập nhật</span>")</td>
+                                    <td class="text-center">
+                                        @(user.RoleId == 0 ? 
+                                            Html.Raw("<span class='badge bg-success'>Quản trị viên</span>") : 
+                                            Html.Raw("<span class='badge bg-secondary'>Người dùng</span>"))
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Sửa">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Kích hoạt tooltips
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+}

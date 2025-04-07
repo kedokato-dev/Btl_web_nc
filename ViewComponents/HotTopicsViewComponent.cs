@@ -18,7 +18,7 @@ namespace Btl_web_nc.Component
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var topics = await _topicRepository.GetHotTopics(); // Implement GetHotTopicsAsync in your repository
+        var topics = await _topicRepository.GetHotTopicsAsync(); // Implement GetHotTopicsAsync in your repository
         return View(topics);
     }
 }

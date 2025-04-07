@@ -1,0 +1,28 @@
+@model Btl_web_nc.Models.User
+
+@{
+    ViewData["Title"] = "Xóa tài khoản";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="text-danger">Xóa tài khoản</h2>
+        <p class="text-muted">Bạn có chắc chắn muốn xóa tài khoản này không?</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5>Thông tin tài khoản:</h5>
+            <ul>
+                <li><strong>Email:</strong> @Model.Email</li>
+                <li><strong>Tên:</strong> @Model.Name</li>
+                <li><strong>Vai trò:</strong> @(Model.RoleId == 0 ? "Quản trị viên" : "Người dùng")</li>
+            </ul>
+            <form asp-action="Delete" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger">Xóa</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>

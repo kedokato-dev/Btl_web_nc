@@ -17,7 +17,7 @@
         <dd class="col-sm-10">@Model.Name</dd>
     </dl>
 
-    <form asp-action="Delete" method="post">
+    <form asp-action="DeleteConfirmed" method="post">
         <input type="hidden" name="id" value="@Model.Id" />
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger">Xác nhận xóa</button>

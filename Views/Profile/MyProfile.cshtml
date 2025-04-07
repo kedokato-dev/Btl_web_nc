@@ -1,0 +1,63 @@
+@model Btl_web_nc.Models.User
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary">
+            <i class="bi bi-person-circle me-2"></i>Thông tin cá nhân
+        </h2>
+        <p class="text-muted">Xem và quản lý thông tin cá nhân của bạn</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Chi tiết tài khoản</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th class="w-25 text-end">Email:</th>
+                        <td>@(!string.IsNullOrWhiteSpace(Model.Email) ? Model.Email : "<span class='text-danger'>Chưa cập nhật</span>")</td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Tên:</th>
+                        <td>@(!string.IsNullOrWhiteSpace(Model.Name) ? Model.Name : "<span class='text-danger'>Chưa cập nhật</span>")</td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Vai trò:</th>
+                        <td>@if(@Model.RoleId == 1){
+                            <span class="badge bg-secondary">Người dùng</span>
+                        }else if(@Model.RoleId == 0){
+                            <span class="badge bg-success">Quản trị viên</span>
+                            }</td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Email đã xác nhận:</th>
+                        <td>
+                            @if (Model.IsEmailConfirmed)
+                            {
+                                <span class="badge bg-success">Đã xác nhận</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Chưa xác nhận</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Thời gian tạo tài khoản :</th>
+                        <td>@(Model.CreatedAt.HasValue ? Model.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "<span class='text-danger'>Không có thông tin</span>")</td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Thời gian ưu tiên:</th>
+                        <td>@(Model.PreferredTime.HasValue ? Model.PreferredTime.Value.ToString("hh\\:mm") : "<span class='text-danger'>Không có thông tin</span>")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
