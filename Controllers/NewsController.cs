@@ -1,12 +1,14 @@
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Net;
 using Btl_web_nc.Models;
 using Btl_web_nc.Models.ViewModels;
 using Btl_web_nc.Repositories;
 using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Btl_web_nc.Controllers
 {
@@ -14,13 +16,13 @@ namespace Btl_web_nc.Controllers
     {
         private readonly RssService _rssService;
         private readonly ArticleRepository _articleRepository;
-        private readonly ICompositeViewEngine _viewEngine; // Khai báo _viewEngine
+        private readonly ICompositeViewEngine _viewEngine;
 
         public NewsController(RssService rssService, ArticleRepository articleRepository, ICompositeViewEngine viewEngine)
         {
             _rssService = rssService;
             _articleRepository = articleRepository;
-            _viewEngine = viewEngine; // Khởi tạo _viewEngine
+            _viewEngine = viewEngine;
         }
 
         public async Task<IActionResult> Index(int? newsletterId, int page = 1)
@@ -43,6 +45,12 @@ namespace Btl_web_nc.Controllers
             // Lấy các bài viết với phân trang
             var (articles, totalPages) = await _rssService.GetPagedArticlesByNewsletterIdAsync(newsletterId.Value, page);
 
+            // Xử lý tóm tắt (loại bỏ HTML thô)
+            foreach (var article in articles)
+            {
+                article.Summary = StripHtml(article.Summary);
+            }
+
             var viewModel = new NewsViewModel
             {
                 Newsletter = newsletter,
@@ -61,6 +69,12 @@ namespace Btl_web_nc.Controllers
             {
                 var (articles, totalPages) = await _rssService.GetPagedArticlesByNewsletterIdAsync(newsletterId, page);
 
+                // Xử lý tóm tắt (loại bỏ HTML thô)
+                foreach (var article in articles)
+                {
+                    article.Summary = StripHtml(article.Summary);
+                }
+
                 // Sử dụng đường dẫn đầy đủ cho partial views
                 var articlesHtml = RenderPartialViewToString("~/Views/Shared/Partials/_ArticlesPartial.cshtml", articles);
                 var paginationHtml = RenderPartialViewToString("~/Views/Shared/Partials/_PaginationPartial.cshtml", new PaginationViewModel
@@ -73,7 +87,6 @@ namespace Btl_web_nc.Controllers
             }
             catch (Exception ex)
             {
-                // Trả về lỗi chi tiết hơn để debug
                 return Json(new
                 {
                     success = false,
@@ -91,14 +104,12 @@ namespace Btl_web_nc.Controllers
             {
                 ViewEngineResult viewResult;
 
-                // Nếu là đường dẫn tuyệt đối (bắt đầu bằng ~ hoặc /) thì dùng GetView
                 if (viewPathOrName.StartsWith("~") || viewPathOrName.StartsWith("/"))
                 {
                     viewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewPathOrName, isMainPage: false);
                 }
                 else
                 {
-                    // Ngược lại, chỉ truyền tên thì dùng FindView
                     viewResult = _viewEngine.FindView(ControllerContext, viewPathOrName, false);
                 }
 
@@ -120,6 +131,16 @@ namespace Btl_web_nc.Controllers
                 return writer.GetStringBuilder().ToString();
             }
         }
-    }
 
+        private string StripHtml(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return string.Empty;
+
+            // Loại bỏ tất cả các thẻ HTML
+            string text = Regex.Replace(input, "<.*?>", string.Empty);
+
+            // Giải mã các ký tự đặc biệt như &lt; thành <
+            return WebUtility.HtmlDecode(text);
+        }
+    }
 }
