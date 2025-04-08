@@ -1,95 +1,103 @@
 @model NewsViewModel
 
-<link rel="stylesheet" href="/wwwroot/news.css">
+<link rel="stylesheet" href="~/css/news.css" asp-append-version="true" />
+
+
 
 <div class="container mt-4">
-    <h1 class="mb-4">@Model.Newsletter.Topic</h1>
+    <h1 class="mb-4 text-center">@Model.Newsletter.Topic</h1>
     <div id="articles-container" class="row">
         @foreach (var article in Model.Articles)
         {
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card article-card h-100" onclick="window.open('@article.Link', '_blank')">
                     @if (!string.IsNullOrEmpty(article.ImageUrl))
                     {
-                        <img src="@article.ImageUrl" class="card-img-top" alt="Article Image" style="height: 200px; object-fit: cover;">
+                        <div class="card-image">
+                            <img src="@article.ImageUrl" class="card-img-top" alt="Article Image">
+                        </div>
                     }
                     <div class="card-body">
                         <h5 class="card-title">@article.Title</h5>
-                        <p class="card-text text-truncate">@article.Summary</p>
-                        <a href="@article.Link" class="btn btn-primary" target="_blank">Read More</a>
+                        <p class="card-text">@article.Summary</p>
                     </div>
-                    <div class="card-footer text-muted">
-                        Published: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")
+                    <div class="card-footer text-muted text-end">
+                        <small>Ngày đăng: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")</small>
                     </div>
                 </div>
             </div>
         }
     </div>
-
-    <div id="pagination-container" class="d-flex justify-content-center mt-4">
-        <nav>
-            <ul class="pagination">
-                @if (Model.TotalPages > 1)
-                {
-                    <!-- Previous page button -->
-                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link pagination-link" data-page="@(Model.CurrentPage - 1)" href="javascript:void(0);">&laquo;</a>
-                    </li>
-                    
-                    @* Calculate range of page numbers to display *@
-                    int startPage = Math.Max(1, Model.CurrentPage - 2);
-                    int endPage = Math.Min(Model.TotalPages, startPage + 4);
-                    
-                    @* Ensure we show at least 5 pages if available *@
-                    if (endPage - startPage < 4)
-                    {
-                        startPage = Math.Max(1, endPage - 4);
-                    }
-
-                    @if (startPage > 1)
-                    {
-                        <li class="page-item">
-                            <a class="page-link pagination-link" data-page="1" href="javascript:void(0);">1</a>
-                        </li>
-                        @if (startPage > 2)
-                        {
-                            <li class="page-item disabled">
-                                <span class="page-link">...</span>
-                            </li>
-                        }
-                    }
-
-                    @for (int i = startPage; i <= endPage; i++)
-                    {
-                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link pagination-link" data-page="@i" href="javascript:void(0);">@i</a>
-                        </li>
-                    }
-
-                    @if (endPage < Model.TotalPages)
-                    {
-                        @if (endPage < Model.TotalPages - 1)
-                        {
-                            <li class="page-item disabled">
-                                <span class="page-link">...</span>
-                            </li>
-                        }
-                        <li class="page-item">
-                            <a class="page-link pagination-link" data-page="@Model.TotalPages" href="javascript:void(0);">@Model.TotalPages</a>
-                        </li>
-                    }
-                    
-                    <!-- Next page button -->
-                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link pagination-link" data-page="@(Model.CurrentPage + 1)" href="javascript:void(0);">&raquo;</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    </div>
 </div>
 
-<div id="loading-overlay" class="position-fixed d-none" style="top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); z-index:1000; display:flex; justify-content:center; align-items:center;">
+<div id="pagination-container" class="d-flex justify-content-center mt-4">
+    <nav>
+        <ul class="pagination">
+            @if (Model.TotalPages > 1)
+            {
+                <!-- Previous page button -->
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link pagination-link" data-page="@(Model.CurrentPage - 1)"
+                        href="javascript:void(0);">&laquo;</a>
+                </li>
+
+                @* Calculate range of page numbers to display *@
+                int startPage = Math.Max(1, Model.CurrentPage - 2);
+                int endPage = Math.Min(Model.TotalPages, startPage + 4);
+
+                @* Ensure we show at least 5 pages if available *@
+                if (endPage - startPage < 4)
+                {
+                    startPage = Math.Max(1, endPage - 4);
+                }
+
+                @if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link pagination-link" data-page="1" href="javascript:void(0);">1</a>
+                    </li>
+                    @if (startPage > 2)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                }
+
+                @for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link pagination-link" data-page="@i" href="javascript:void(0);">@i</a>
+                    </li>
+                }
+
+                @if (endPage < Model.TotalPages)
+                {
+                    @if (endPage < Model.TotalPages - 1)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link pagination-link" data-page="@Model.TotalPages"
+                            href="javascript:void(0);">@Model.TotalPages</a>
+                    </li>
+                }
+
+                <!-- Next page button -->
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link pagination-link" data-page="@(Model.CurrentPage + 1)"
+                        href="javascript:void(0);">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+</div>
+
+<div id="loading-overlay" class="position-fixed d-none"
+    style="top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); z-index:1000; display:flex; justify-content:center; align-items:center;">
     <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
         <span class="visually-hidden">Loading...</span>
     </div>
@@ -98,41 +106,44 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(function() {
+        $(function () {
             // Lưu trữ newsletterId
             const newsletterId = @Model.Newsletter.Id;
             let isLoading = false;
-            
+
             // Hàm tải bài viết cho trang cụ thể
             function loadArticles(page) {
                 // Ngăn các yêu cầu đồng thời
                 if (isLoading) return;
                 isLoading = true;
-                
+
                 // Hiển thị overlay loading
                 $('#loading-overlay').removeClass('d-none');
-                
+
                 // Cập nhật URL với tham số trang mà không tải lại
                 const url = new URL(window.location.href);
                 url.searchParams.set('page', page);
-                window.history.pushState({page}, '', url);
-                
+                window.history.pushState({ page }, '', url);
+
                 $.ajax({
                     url: '/News/GetPagedArticles',
                     type: 'GET',
                     data: { newsletterId: newsletterId, page: page },
                     dataType: 'json',
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
+                              console.log(response.articlesHtml); // 👈 Thêm dòng này để debug
                             // Cập nhật DOM với nội dung mới
                             $('#articles-container').html(response.articlesHtml);
                             $('#pagination-container').html(response.paginationHtml);
-                            
+                            // Đảm bảo CSS được áp dụng cho phần tử mới
+                            // Không cần thêm link CSS mới vào head
+
                             // Cuộn lên đầu container bài viết
                             $('html, body').animate({
                                 scrollTop: $('#articles-container').offset().top - 20
                             }, 200);
-                            
+
                             // Gắn lại sự kiện cho các nút phân trang mới
                             attachPaginationEvents();
                         } else {
@@ -140,56 +151,56 @@
                             showError(response.message || 'Lỗi không xác định khi tải bài viết', page);
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.error('Lỗi khi tải bài viết:', xhr);
                         let errorMessage = 'Không thể kết nối đến máy chủ.';
                         if (xhr.responseJSON && xhr.responseJSON.message) {
                             errorMessage = xhr.responseJSON.message;
                         }
-                        
+
                         showError(errorMessage, page);
                     },
-                    complete: function() {
+                    complete: function () {
                         // Ẩn overlay loading
                         $('#loading-overlay').addClass('d-none');
                         isLoading = false;
                     }
                 });
             }
-            
+
             function showError(message, page) {
                 $('#articles-container').html(
                     `<div class="col-12 text-center">
-                        <div class="alert alert-danger" role="alert">
-                            ${message}
-                            <button class="btn btn-sm btn-outline-danger ms-2" onclick="loadArticles(${page})">
-                                <i class="bi bi-arrow-clockwise"></i> Thử lại
-                            </button>
-                        </div>
-                    </div>`
+                                        <div class="alert alert-danger" role="alert">
+                                            ${message}
+                                            <button class="btn btn-sm btn-outline-danger ms-2" onclick="loadArticles(${page})">
+                                                <i class="bi bi-arrow-clockwise"></i> Thử lại
+                                            </button>
+                                        </div>
+                                    </div>`
                 );
             }
-            
+
             function attachPaginationEvents() {
                 // Xử lý click phân trang bằng ủy quyền sự kiện
-                $('.pagination-link').off('click').on('click', function(e) {
+                $('.pagination-link').off('click').on('click', function (e) {
                     e.preventDefault();
-                    
+
                     // Bỏ qua nếu là link bị vô hiệu hóa hoặc trang hiện tại
                     if ($(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
                         return;
                     }
-                    
+
                     const page = $(this).data('page');
                     loadArticles(page);
                 });
             }
-            
+
             // Gắn sự kiện khi trang được tải lần đầu
             attachPaginationEvents();
-            
+
             // Xử lý nút back/forward của trình duyệt
-            $(window).on('popstate', function(e) {
+            $(window).on('popstate', function (e) {
                 const url = new URL(window.location.href);
                 const page = parseInt(url.searchParams.get('page')) || 1;
                 loadArticles(page);

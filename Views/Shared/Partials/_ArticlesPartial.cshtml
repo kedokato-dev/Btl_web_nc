@@ -3,18 +3,19 @@
 @foreach (var article in Model)
 {
     <div class="col-md-4 mb-4">
-        <div class="card h-100">
+        <div class="card article-card h-100" onclick="window.open('@article.Link', '_blank')">
             @if (!string.IsNullOrEmpty(article.ImageUrl))
             {
-                <img src="@article.ImageUrl" class="card-img-top" alt="Article Image" style="height: 200px; object-fit: cover;">
+                <div class="card-image">
+                    <img src="@article.ImageUrl" class="card-img-top" alt="Article Image">
+                </div>
             }
             <div class="card-body">
                 <h5 class="card-title">@article.Title</h5>
-                <p class="card-text text-truncate">@article.Summary</p>
-                <a href="@article.Link" class="btn btn-primary" target="_blank">Read More</a>
+                <p class="card-text">@article.Summary</p>
             </div>
-            <div class="card-footer text-muted">
-                Published: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")
+            <div class="card-footer text-muted text-end">
+                <small>Ngày đăng: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")</small>
             </div>
         </div>
     </div>

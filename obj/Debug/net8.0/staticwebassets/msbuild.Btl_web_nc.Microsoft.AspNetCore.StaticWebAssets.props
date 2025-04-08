@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>0f6frl0mp4</Fingerprint>
-      <Integrity>PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=</Integrity>
+      <Fingerprint>yt3z8714gm</Fingerprint>
+      <Integrity>JpKAEGystVItTLh6GotBqW7aUapeRf+8nb1Hea+HtfU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\news.css'))</OriginalItemSpec>

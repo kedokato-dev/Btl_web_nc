@@ -48,17 +48,17 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"vdvkel0fij"},{"Name":"integrity","Value":"sha256-HSJHra2Y2nLU25Zqx6Vs9yqI/KPaxFgXvRANCSQmpnM="},{"Name":"label","Value":"_content/Btl_web_nc/css/login.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2905"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HSJHra2Y2nLU25Zqx6Vs9yqI/KPaxFgXvRANCSQmpnM=\u0022"},{"Name":"Last-Modified","Value":"Sat, 05 Apr 2025 16:27:11 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Btl_web_nc/css/news.0f6frl0mp4.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\news.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"0f6frl0mp4"},{"Name":"integrity","Value":"sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw\u002By6sw="},{"Name":"label","Value":"_content/Btl_web_nc/css/news.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"637"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw\u002By6sw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Apr 2025 17:39:02 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Btl_web_nc/css/news.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\news.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw\u002By6sw="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"637"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw\u002By6sw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 07 Apr 2025 17:39:02 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-JpKAEGystVItTLh6GotBqW7aUapeRf\u002B8nb1Hea\u002BHtfU="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"791"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022JpKAEGystVItTLh6GotBqW7aUapeRf\u002B8nb1Hea\u002BHtfU=\u0022"},{"Name":"Last-Modified","Value":"Tue, 08 Apr 2025 14:50:38 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Btl_web_nc/css/news.yt3z8714gm.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\news.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yt3z8714gm"},{"Name":"integrity","Value":"sha256-JpKAEGystVItTLh6GotBqW7aUapeRf\u002B8nb1Hea\u002BHtfU="},{"Name":"label","Value":"_content/Btl_web_nc/css/news.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"791"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022JpKAEGystVItTLh6GotBqW7aUapeRf\u002B8nb1Hea\u002BHtfU=\u0022"},{"Name":"Last-Modified","Value":"Tue, 08 Apr 2025 14:50:38 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Btl_web_nc/css/site.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
