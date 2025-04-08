@@ -1,0 +1,17 @@
+@model Btl_web_nc.Models.Subscription
+
+<div class="container mt-5">
+    <h2 class="text-warning">Chỉnh sửa đăng ký</h2>
+    <form asp-action="Edit" method="post" class="mt-4">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label for="NewsletterId" class="form-label">Bản tin</label>
+            <input asp-for="NewsletterId" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="Frequency" class="form-label">Tần suất</label>
+            <input asp-for="Frequency" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    </form>
+</div>

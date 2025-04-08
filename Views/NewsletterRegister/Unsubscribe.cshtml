@@ -1,0 +1,10 @@
+@model Btl_web_nc.Models.Subscription
+
+<div class="container mt-5">
+    <h2 class="text-danger">Hủy đăng ký</h2>
+    <p class="mb-4">Bạn có chắc chắn muốn hủy đăng ký nhận tin từ "<strong>@Model.Newsletter.Name</strong>" không?</p>
+    <form asp-action="ConfirmUnsubscribe" method="post" class="d-flex gap-3">
+        <button type="submit" class="btn btn-danger">Hủy đăng ký</button>
+        <a href="/NewsletterRegister" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

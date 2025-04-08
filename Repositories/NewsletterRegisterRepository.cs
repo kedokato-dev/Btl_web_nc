@@ -11,8 +11,7 @@ namespace Btl_web_nc.Repositories
 {
     public class NewsletterRegisterRepository : INewsletterRegisterRepository
     {
-
-         private readonly AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public NewsletterRegisterRepository(AppDbContext context)
         {
@@ -25,25 +24,6 @@ namespace Btl_web_nc.Repositories
             return _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<SubscriptionsViewModel>> GetUserSubscriptionsByEmail(string email)
-        {
-            var result = await _context.Subscriptions
-                .Include(s => s.User) // Nối bảng Subscription với User
-                .Include(s => s.Newsletter) // Nối bảng Subscription với Newsletter
-                .Where(s => s.User.Email == email) // Điều kiện lọc theo email
-                .Select(s => new SubscriptionsViewModel
-                {
-                    UserName = s.User.Name,
-                    NewsletterName = s.Newsletter.Name,
-                    Frequency = s.Frequency,
-                    UserEmail = s.User.Email
-                }) // Map trực tiếp sang SubscriptionsViewModel
-                .ToListAsync();
-
-            return result;
-        }
-
-
         public Task DeleteSubscription(int id)
         {
             var subscription = _context.Subscriptions.Find(id);
@@ -55,19 +35,35 @@ namespace Btl_web_nc.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<Subscription>> GetAllSubscriptions()
-        {
-            var subscriptions = await _context.Subscriptions.ToListAsync();
-            return subscriptions;
-        }
-
-
         public Task UpdateSubscription(Subscription subscription)
         {
             _context.Subscriptions.Update(subscription);
             return _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<SubscriptionsViewModel>> GetUserSubscriptionsByEmail(string email)
+        {
+            var result = await _context.Subscriptions
+                .Include(s => s.User)
+                .Include(s => s.Newsletter)
+                .Where(s => s.User.Email == email)
+                .Select(s => new SubscriptionsViewModel
+                {
+                    Id = s.Id,
+                    UserName = s.User.Name,
+                    NewsletterName = s.Newsletter.Name,
+                    Frequency = s.Frequency,
+                    UserEmail = s.User.Email
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Subscription>> GetAllSubscriptions()
+        {
+            return await _context.Subscriptions.ToListAsync();
+        }
     }
 
 }

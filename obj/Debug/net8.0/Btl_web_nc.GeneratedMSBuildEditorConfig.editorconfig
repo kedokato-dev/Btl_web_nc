@@ -40,8 +40,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[F:/WorkSpace/Btl_web_nc/Views/NewsletterRegister/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c2xldHRlclJlZ2lzdGVyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [F:/WorkSpace/Btl_web_nc/Views/NewsletterRegister/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c2xldHRlclJlZ2lzdGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/WorkSpace/Btl_web_nc/Views/NewsletterRegister/Subscribe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c2xldHRlclJlZ2lzdGVyXFN1YnNjcmliZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/WorkSpace/Btl_web_nc/Views/NewsletterRegister/Unsubscribe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c2xldHRlclJlZ2lzdGVyXFVuc3Vic2NyaWJlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [F:/WorkSpace/Btl_web_nc/Views/News/AllArticles.cshtml]
