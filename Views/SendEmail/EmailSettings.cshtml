@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Quản lý gửi email";
+}
+
+<h1>Quản lý gửi email</h1>
+
+<p>Trạng thái hiện tại: <strong>@(ViewBag.IsRunning ? "Đang chạy" : "Đã dừng")</strong></p>
+
+<form method="post" action="/Setting/StartEmailService" style="display: inline;">
+    <button type="submit" class="btn btn-success" @(ViewBag.IsRunning ? "disabled" : "")>Bắt đầu</button>
+</form>
+
+<form method="post" action="/Setting/StopEmailService" style="display: inline;">
+    <button type="submit" class="btn btn-danger" @(!ViewBag.IsRunning ? "disabled" : "")>Dừng</button>
+</form>

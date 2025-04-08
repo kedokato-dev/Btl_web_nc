@@ -30,7 +30,11 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<SendMailServices>();
 builder.Services.AddScoped<EmailNotificationService>();
 
-builder.Services.AddHostedService<EmailBackgroundService>();
+builder.Services.AddScoped<INewsletterRegisterRepository, NewsletterRegisterRepository>();
+builder.Services.AddScoped<NewsletterRegisterServices>();
+
+builder.Services.AddSingleton<EmailBackgroundService>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<EmailBackgroundService>());
 
 // service rss feed
 // Thêm vào Program.cs trong phần ConfigureServices

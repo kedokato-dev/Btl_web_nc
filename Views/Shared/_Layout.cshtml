@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 </head>
+
 <body>
     <header class="sticky-top">
         <!-- Top Header - Logo, Search, Auth -->
@@ -51,7 +52,13 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" href="/Profile/MyProfile"><i
                                                 class="fas fa-user-circle me-2"></i>Trang cá nhân</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+
+                                    <li><a class="dropdown-item" href="/SendEmail/EmailSettings"><i class="fas fa-cog me-2">
+
+                                            </i>Cài đặt</a></li>
+                                    <li><a class="dropdown-item" href="/NewsletterRegister/"><i
+                                                class="fas fa-newspaper me-2"></i>Đăng ký nhận tin</a>
+                                    </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -149,13 +156,13 @@
                             <li class="nav-item">
                                 <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && Context.Request.Query["newsletterId"] == "5" ? "active" : "")"
                                     asp-area="" asp-controller="News" asp-action="Index" asp-route-newsletterId="5">Số Hoá
-                                    </a>
+                                </a>
                             </li>
 
-                                                        <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && Context.Request.Query["newsletterId"] == "6" ? "active" : "")"
                                     asp-area="" asp-controller="News" asp-action="Index" asp-route-newsletterId="6">Thể Thao
-                                    </a>
+                                </a>
                             </li>
 
                             <li class="nav-item dropdown">

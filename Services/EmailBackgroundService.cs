@@ -9,10 +9,30 @@ namespace Btl_web_nc.Services
     public class EmailBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
+        private CancellationTokenSource _cts;
+
+        public bool IsRunning { get; private set; }
 
         public EmailBackgroundService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+        }
+
+        public void StartService()
+        {
+            if (IsRunning) return;
+
+            _cts = new CancellationTokenSource();
+            ExecuteAsync(_cts.Token);
+            IsRunning = true;
+        }
+
+        public void StopService()
+        {
+            if (!IsRunning) return;
+
+            _cts.Cancel();
+            IsRunning = false;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,12 +49,10 @@ namespace Btl_web_nc.Services
                     }
                     catch (Exception ex)
                     {
-                        // Log lỗi nếu cần
                         Console.WriteLine($"Error sending emails: {ex.Message}");
                     }
                 }
 
-                // Chờ 24 giờ trước khi chạy lại
                 await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
             }
         }
