@@ -226,3 +226,8 @@ F:\WorkSpace\Btl_web_nc\obj\Debug\net8.0\refint\Btl_web_nc.dll
 F:\WorkSpace\Btl_web_nc\obj\Debug\net8.0\Btl_web_nc.pdb
 F:\WorkSpace\Btl_web_nc\obj\Debug\net8.0\Btl_web_nc.genruntimeconfig.cache
 F:\WorkSpace\Btl_web_nc\obj\Debug\net8.0\ref\Btl_web_nc.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\MailKit.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\MimeKit.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+F:\WorkSpace\Btl_web_nc\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

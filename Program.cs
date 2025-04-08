@@ -25,6 +25,13 @@ builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ArticleRepository>();
 builder.Services.AddScoped<RssService>();
 
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<SendMailServices>();
+builder.Services.AddScoped<EmailNotificationService>();
+
+builder.Services.AddHostedService<EmailBackgroundService>();
+
 // service rss feed
 // Thêm vào Program.cs trong phần ConfigureServices
 builder.Services.AddScoped<RssService>();
