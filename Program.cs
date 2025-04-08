@@ -22,7 +22,8 @@ builder.Services.AddScoped<ProfileService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-
+builder.Services.AddScoped<ArticleRepository>();
+builder.Services.AddScoped<RssService>();
 
 // service rss feed
 // Thêm vào Program.cs trong phần ConfigureServices

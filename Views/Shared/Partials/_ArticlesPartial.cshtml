@@ -1,0 +1,21 @@
+@model List<Article>
+
+@foreach (var article in Model)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            @if (!string.IsNullOrEmpty(article.ImageUrl))
+            {
+                <img src="@article.ImageUrl" class="card-img-top" alt="Article Image" style="height: 200px; object-fit: cover;">
+            }
+            <div class="card-body">
+                <h5 class="card-title">@article.Title</h5>
+                <p class="card-text text-truncate">@article.Summary</p>
+                <a href="@article.Link" class="btn btn-primary" target="_blank">Read More</a>
+            </div>
+            <div class="card-footer text-muted">
+                Published: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")
+            </div>
+        </div>
+    </div>
+}

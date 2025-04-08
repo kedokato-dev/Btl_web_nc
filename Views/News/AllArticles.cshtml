@@ -1,0 +1,22 @@
+@model List<Btl_web_nc.Models.Article>
+
+<h1>All Articles</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Published At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.Title</td>
+                <td><a href="@article.Link" target="_blank">@article.Link</a></td>
+                <td>@article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

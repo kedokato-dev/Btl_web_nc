@@ -1,0 +1,62 @@
+@using Btl_web_nc.Models.ViewModels
+@model PaginationViewModel
+
+<nav>
+    <ul class="pagination">
+        @if (Model.TotalPages > 1)
+        {
+            <!-- Previous page button -->
+            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link pagination-link" data-page="@(Model.CurrentPage - 1)" href="javascript:void(0);">&laquo;</a>
+            </li>
+            
+            // Calculate range of page numbers to display
+            int startPage = Math.Max(1, Model.CurrentPage - 2);
+            int endPage = Math.Min(Model.TotalPages, startPage + 4);
+            
+            // Ensure we show at least 5 pages if available
+            if (endPage - startPage < 4)
+            {
+                startPage = Math.Max(1, endPage - 4);
+            }
+
+            @if (startPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link pagination-link" data-page="1" href="javascript:void(0);">1</a>
+                </li>
+                @if (startPage > 2)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link pagination-link" data-page="@i" href="javascript:void(0);">@i</a>
+                </li>
+            }
+
+            @if (endPage < Model.TotalPages)
+            {
+                @if (endPage < Model.TotalPages - 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link pagination-link" data-page="@Model.TotalPages" href="javascript:void(0);">@Model.TotalPages</a>
+                </li>
+            }
+            
+            <!-- Next page button -->
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link pagination-link" data-page="@(Model.CurrentPage + 1)" href="javascript:void(0);">&raquo;</a>
+            </li>
+        }
+    </ul>
+</nav>

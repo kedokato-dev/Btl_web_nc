@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "FWOV/SG6Fu+96tSx3POXGn3pLaB9hvzNsJzbQ2Dt9bg=",
+  "Hash": "KKV4/usiELPDXzQe7ZSqh3YaeU/Sb9q+/jhANplTeGQ=",
   "Source": "Btl_web_nc",
   "BasePath": "_content/Btl_web_nc",
   "Mode": "Default",
@@ -120,6 +120,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\login.css"
+    },
+    {
+      "Identity": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\news.css",
+      "SourceId": "Btl_web_nc",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\",
+      "BasePath": "_content/Btl_web_nc",
+      "RelativePath": "css/news#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0f6frl0mp4",
+      "Integrity": "PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\news.css"
     },
     {
       "Identity": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\site.css",
@@ -1832,6 +1853,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-HSJHra2Y2nLU25Zqx6Vs9yqI/KPaxFgXvRANCSQmpnM="
+        }
+      ]
+    },
+    {
+      "Route": "css/news.0f6frl0mp4.css",
+      "AssetFile": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\news.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Apr 2025 17:39:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0f6frl0mp4"
+        },
+        {
+          "Name": "label",
+          "Value": "css/news.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw="
+        }
+      ]
+    },
+    {
+      "Route": "css/news.css",
+      "AssetFile": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\news.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Apr 2025 17:39:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw="
         }
       ]
     },

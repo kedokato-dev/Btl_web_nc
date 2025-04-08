@@ -331,6 +331,88 @@
       ]
     },
     {
+      "Route": "css/news.0f6frl0mp4.css",
+      "AssetFile": "css/news.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Apr 2025 17:39:02 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0f6frl0mp4"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw="
+        },
+        {
+          "Name": "label",
+          "Value": "css/news.css"
+        }
+      ]
+    },
+    {
+      "Route": "css/news.css",
+      "AssetFile": "css/news.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Apr 2025 17:39:02 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PL1AsJNkH05JZm5p7N41VTf0m2sA79a/f8Qyjw+y6sw="
+        }
+      ]
+    },
+    {
       "Route": "css/site.css",
       "AssetFile": "css/site.css",
       "Selectors": [],

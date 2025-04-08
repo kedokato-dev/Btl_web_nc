@@ -1,73 +1,199 @@
-@model Btl_web_nc.Models.NewsViewModel
+@model NewsViewModel
 
-@{
-    ViewData["Title"] = Model.Newsletter.Name;
-}
+<link rel="stylesheet" href="/wwwroot/news.css">
 
 <div class="container mt-4">
-    <div class="row">
-
-        <!-- Main Content -->
-        <div class="col-lg-9">
-            <h1 class="mb-4">@Model.Newsletter.Name</h1>
-            <div class="row">
-                @foreach (var item in Model.Articles)
-                {
-                    <div class="col-md-6 mb-4">
-                        <div class="card border-0 shadow-sm">
-                            <a href="@item.Link" target="_blank">
-                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" onerror="this.src='https://via.placeholder.com/350x200?text=No+Image';">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="@item.Link" class="text-dark text-decoration-none" target="_blank">@item.Title</a>
-                                </h5>
-                                <p class="card-text text-muted small">@item.PublishedAt?.ToString("dd/MM/yyyy HH:mm")</p>
-                            </div>
-                        </div>
+    <h1 class="mb-4">@Model.Newsletter.Topic</h1>
+    <div id="articles-container" class="row">
+        @foreach (var article in Model.Articles)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(article.ImageUrl))
+                    {
+                        <img src="@article.ImageUrl" class="card-img-top" alt="Article Image" style="height: 200px; object-fit: cover;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@article.Title</h5>
+                        <p class="card-text text-truncate">@article.Summary</p>
+                        <a href="@article.Link" class="btn btn-primary" target="_blank">Read More</a>
                     </div>
-                }
+                    <div class="card-footer text-muted">
+                        Published: @article.PublishedAt?.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                </div>
             </div>
-        </div>
+        }
+    </div>
+
+    <div id="pagination-container" class="d-flex justify-content-center mt-4">
+        <nav>
+            <ul class="pagination">
+                @if (Model.TotalPages > 1)
+                {
+                    <!-- Previous page button -->
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link pagination-link" data-page="@(Model.CurrentPage - 1)" href="javascript:void(0);">&laquo;</a>
+                    </li>
+                    
+                    @* Calculate range of page numbers to display *@
+                    int startPage = Math.Max(1, Model.CurrentPage - 2);
+                    int endPage = Math.Min(Model.TotalPages, startPage + 4);
+                    
+                    @* Ensure we show at least 5 pages if available *@
+                    if (endPage - startPage < 4)
+                    {
+                        startPage = Math.Max(1, endPage - 4);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link pagination-link" data-page="1" href="javascript:void(0);">1</a>
+                        </li>
+                        @if (startPage > 2)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link pagination-link" data-page="@i" href="javascript:void(0);">@i</a>
+                        </li>
+                    }
+
+                    @if (endPage < Model.TotalPages)
+                    {
+                        @if (endPage < Model.TotalPages - 1)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+                        <li class="page-item">
+                            <a class="page-link pagination-link" data-page="@Model.TotalPages" href="javascript:void(0);">@Model.TotalPages</a>
+                        </li>
+                    }
+                    
+                    <!-- Next page button -->
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link pagination-link" data-page="@(Model.CurrentPage + 1)" href="javascript:void(0);">&raquo;</a>
+                    </li>
+                }
+            </ul>
+        </nav>
     </div>
 </div>
 
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-}
+<div id="loading-overlay" class="position-fixed d-none" style="top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); z-index:1000; display:flex; justify-content:center; align-items:center;">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
 
-h1, h5 {
-    font-weight: bold;
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function() {
+            // Lưu trữ newsletterId
+            const newsletterId = @Model.Newsletter.Id;
+            let isLoading = false;
+            
+            // Hàm tải bài viết cho trang cụ thể
+            function loadArticles(page) {
+                // Ngăn các yêu cầu đồng thời
+                if (isLoading) return;
+                isLoading = true;
+                
+                // Hiển thị overlay loading
+                $('#loading-overlay').removeClass('d-none');
+                
+                // Cập nhật URL với tham số trang mà không tải lại
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', page);
+                window.history.pushState({page}, '', url);
+                
+                $.ajax({
+                    url: '/News/GetPagedArticles',
+                    type: 'GET',
+                    data: { newsletterId: newsletterId, page: page },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Cập nhật DOM với nội dung mới
+                            $('#articles-container').html(response.articlesHtml);
+                            $('#pagination-container').html(response.paginationHtml);
+                            
+                            // Cuộn lên đầu container bài viết
+                            $('html, body').animate({
+                                scrollTop: $('#articles-container').offset().top - 20
+                            }, 200);
+                            
+                            // Gắn lại sự kiện cho các nút phân trang mới
+                            attachPaginationEvents();
+                        } else {
+                            // Xử lý lỗi từ server
+                            showError(response.message || 'Lỗi không xác định khi tải bài viết', page);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Lỗi khi tải bài viết:', xhr);
+                        let errorMessage = 'Không thể kết nối đến máy chủ.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        
+                        showError(errorMessage, page);
+                    },
+                    complete: function() {
+                        // Ẩn overlay loading
+                        $('#loading-overlay').addClass('d-none');
+                        isLoading = false;
+                    }
+                });
+            }
+            
+            function showError(message, page) {
+                $('#articles-container').html(
+                    `<div class="col-12 text-center">
+                        <div class="alert alert-danger" role="alert">
+                            ${message}
+                            <button class="btn btn-sm btn-outline-danger ms-2" onclick="loadArticles(${page})">
+                                <i class="bi bi-arrow-clockwise"></i> Thử lại
+                            </button>
+                        </div>
+                    </div>`
+                );
+            }
+            
+            function attachPaginationEvents() {
+                // Xử lý click phân trang bằng ủy quyền sự kiện
+                $('.pagination-link').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Bỏ qua nếu là link bị vô hiệu hóa hoặc trang hiện tại
+                    if ($(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
+                        return;
+                    }
+                    
+                    const page = $(this).data('page');
+                    loadArticles(page);
+                });
+            }
+            
+            // Gắn sự kiện khi trang được tải lần đầu
+            attachPaginationEvents();
+            
+            // Xử lý nút back/forward của trình duyệt
+            $(window).on('popstate', function(e) {
+                const url = new URL(window.location.href);
+                const page = parseInt(url.searchParams.get('page')) || 1;
+                loadArticles(page);
+            });
+        });
+    </script>
 }
-
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 8px;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card-title a {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.card-title a:hover {
-    color: #007bff;
-}
-
-.list-group-item a {
-    text-decoration: none;
-    color: #007bff;
-}
-
-.list-group-item a:hover {
-    text-decoration: underline;
-}   
-</style>

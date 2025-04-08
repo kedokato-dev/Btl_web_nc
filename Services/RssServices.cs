@@ -1,83 +1,101 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
-using Btl_web_nc.Data;
 using Btl_web_nc.Models;
-using Microsoft.EntityFrameworkCore;
+using Btl_web_nc.Repositories;
 
 namespace Btl_web_nc.Services
 {
     public class RssService
     {
-        public async Task<List<Article>> GetAndSaveFeedItemsAsync(string rssUrl, int newsletterId, AppDbContext dbContext)
+        private readonly ArticleRepository _articleRepository;
+
+        public RssService(ArticleRepository articleRepository)
         {
-            var articles = new List<Article>();
+            _articleRepository = articleRepository;
+        }
 
-            try
+        // Lưu tin tức từ RSS vào cơ sở dữ liệu
+        public async Task SaveFeedItemsFromRssAsync(string rssUrl, int newsletterId)
+{
+    try
+    {
+        using (var reader = XmlReader.Create(rssUrl))
+        {
+            var feed = SyndicationFeed.Load(reader);
+
+            foreach (var item in feed.Items)
             {
-                using (var reader = XmlReader.Create(rssUrl))
+                var existingArticle = await _articleRepository.GetArticleByLinkAsync(item.Links[0].Uri.ToString());
+
+                if (existingArticle == null)
                 {
-                    var feed = SyndicationFeed.Load(reader);
+                    // Lấy ảnh từ thẻ <enclosure> hoặc <description>
+                    string? imageUrl = null;
 
-                    foreach (var item in feed.Items)
+                    // Kiểm tra thẻ <enclosure>
+                    var enclosure = item.ElementExtensions
+                        .FirstOrDefault(ext => ext.OuterName == "enclosure");
+                    if (enclosure != null)
                     {
-                        // Kiểm tra xem bài viết đã tồn tại chưa (dựa vào link)
-                        var existingArticle = await dbContext.Articles
-                            .FirstOrDefaultAsync(a => a.Link == item.Links[0].Uri.ToString());
+                        var xmlElement = enclosure.GetObject<XmlElement>();
+                        imageUrl = xmlElement?.GetAttribute("url");
+                    }
 
-                        if (existingArticle == null)
+                    // Nếu không có <enclosure>, kiểm tra trong <description>
+                    if (string.IsNullOrEmpty(imageUrl) && item.Summary != null)
+                    {
+                        var description = item.Summary.Text;
+                        var imgTagStart = description.IndexOf("<img");
+                        if (imgTagStart >= 0)
                         {
-                            // Lấy URL hình ảnh từ thẻ <enclosure>
-                            var imageUrl = item.ElementExtensions
-                                .ReadElementExtensions<SyndicationLink>("enclosure", "")
-                                ?.FirstOrDefault()?.Uri.ToString();
-
-                            // Nếu không có thẻ <enclosure>, thử lấy từ <description>
-                            if (string.IsNullOrEmpty(imageUrl) && item.Summary != null)
+                            var srcStart = description.IndexOf("src=\"", imgTagStart) + 5;
+                            var srcEnd = description.IndexOf("\"", srcStart);
+                            if (srcStart > 0 && srcEnd > srcStart)
                             {
-                                var description = item.Summary.Text;
-                                var imgTagStart = description.IndexOf("<img src=\"");
-                                if (imgTagStart >= 0)
-                                {
-                                    var imgTagEnd = description.IndexOf("\"", imgTagStart + 10);
-                                    if (imgTagEnd > imgTagStart)
-                                    {
-                                        imageUrl = description.Substring(imgTagStart + 10, imgTagEnd - imgTagStart - 10);
-                                    }
-                                }
+                                imageUrl = description.Substring(srcStart, srcEnd - srcStart);
                             }
-
-                            var article = new Article
-                            {
-                                NewsletterId = newsletterId,
-                                Title = item.Title.Text,
-                                Link = item.Links[0].Uri.ToString(),
-                                PublishedAt = item.PublishDate.DateTime,
-                                Summary = item.Summary?.Text,
-                                ImageUrl = imageUrl,
-                                CreatedAt = DateTime.Now
-                            };
-
-                            dbContext.Articles.Add(article);
-                            articles.Add(article);
-                        }
-                        else
-                        {
-                            articles.Add(existingArticle);
                         }
                     }
 
-                    await dbContext.SaveChangesAsync();
+                    var article = new Article
+                    {
+                        NewsletterId = newsletterId,
+                        Title = item.Title.Text,
+                        Link = item.Links[0].Uri.ToString(),
+                        PublishedAt = item.PublishDate.DateTime,
+                        Summary = item.Summary?.Text,
+                        ImageUrl = imageUrl,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    await _articleRepository.AddArticleAsync(article);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching and saving RSS feed: {ex.Message}");
-            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error fetching and saving RSS feed: {ex.Message}");
+    }
+}
 
-            return articles;
+        // Lấy tất cả tin tức theo newsletterId với phân trang
+        public async Task<(List<Article> Articles, int TotalPages)> GetPagedArticlesByNewsletterIdAsync(int newsletterId, int page, int pageSize = 20)
+        {
+            var allArticles = await _articleRepository.GetAllArticlesByNewsletterIdAsync(newsletterId);
+            var totalArticles = allArticles.Count;
+            var totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
+
+            var pagedArticles = allArticles
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return (pagedArticles, totalPages);
         }
     }
 }

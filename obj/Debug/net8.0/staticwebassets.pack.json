@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\css\\login.css"
     },
     {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\news.css",
+      "PackagePath": "staticwebassets\\css\\news.css"
+    },
+    {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
