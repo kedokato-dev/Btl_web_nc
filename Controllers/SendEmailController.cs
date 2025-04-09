@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Btl_web_nc.Services;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Btl_web_nc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SendEmailController : Controller
     {
         private readonly EmailBackgroundService _emailBackgroundService;

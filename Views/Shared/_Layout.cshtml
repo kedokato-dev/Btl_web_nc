@@ -54,9 +54,12 @@
                                     <li><a class="dropdown-item" href="/Profile/MyProfile"><i
                                                 class="fas fa-user-circle me-2"></i>Trang cá nhân</a></li>
 
-                                    <li><a class="dropdown-item" href="/SendEmail/"><i class="fas fa-cog me-2">
+                                 @if(User.IsInRole("Admin"))
+                                    {
+                                          <li><a class="dropdown-item" href="/SendEmail/"><i class="fas fa-cog me-2">
 
-                                            </i>Cài đặt</a></li>
+                                            </i>Cài đặt gửi tin nhắn</a></li>
+                                    }
                                     <li><a class="dropdown-item" href="/NewsletterRegister/"><i
                                                 class="fas fa-newspaper me-2"></i>Đăng ký nhận tin</a>
                                     </li>
