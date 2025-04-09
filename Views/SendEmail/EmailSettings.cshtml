@@ -3,13 +3,22 @@
 }
 
 <h1>Quản lý gửi email</h1>
+<p>Giờ gửi hiện tại: <strong>@ViewBag.SendTime</strong></p>
 
 <p>Trạng thái hiện tại: <strong>@(ViewBag.IsRunning ? "Đang chạy" : "Đã dừng")</strong></p>
 
-<form method="post" action="/Setting/StartEmailService" style="display: inline;">
+<form method="post" action="@Url.Action("StartEmailService", "SendEmail")" style="display: inline;">
     <button type="submit" class="btn btn-success" @(ViewBag.IsRunning ? "disabled" : "")>Bắt đầu</button>
 </form>
 
-<form method="post" action="/Setting/StopEmailService" style="display: inline;">
+<form method="post" action="@Url.Action("StopEmailService", "SendEmail")" style="display: inline;">
     <button type="submit" class="btn btn-danger" @(!ViewBag.IsRunning ? "disabled" : "")>Dừng</button>
+</form>
+
+<form method="post" action="@Url.Action("SetSendTime", "SendEmail")">
+    <div class="mb-3">
+        <label for="sendTime" class="form-label">Chọn giờ gửi:</label>
+        <input type="time" id="sendTime" name="sendTime" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu giờ gửi</button>
 </form>

@@ -1,40 +1,63 @@
-using System.Threading.Tasks;
-using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Btl_web_nc.Services;
+using System;
 
 namespace Btl_web_nc.Controllers
 {
     public class SendEmailController : Controller
     {
-        private readonly ILogger<SendEmailController> _logger;
         private readonly EmailBackgroundService _emailBackgroundService;
+        private static TimeSpan _sendTime = new TimeSpan(2, 06, 0); // Giờ gửi mặc định: 8:00 sáng
 
-        public SendEmailController(ILogger<SendEmailController> logger, EmailBackgroundService emailBackgroundService)
+        public SendEmailController(EmailBackgroundService emailBackgroundService)
         {
-            _logger = logger;
             _emailBackgroundService = emailBackgroundService;
         }
 
-        [HttpGet]
-        public IActionResult EmailSettings()
-        {
-            ViewBag.IsRunning = _emailBackgroundService.IsRunning;
-            return View();
-        }
-
-        [HttpPost("StartEmailService")]
+        [HttpPost]
         public IActionResult StartEmailService()
         {
-            _emailBackgroundService.StartService();
-            return RedirectToAction("EmailSettings");
+            if (!_emailBackgroundService.IsRunning)
+            {
+                _emailBackgroundService.StartService();
+            }
+
+            return RedirectToAction("Index", "SendEmail");
         }
 
-        [HttpPost("StopEmailService")]
+        [HttpPost]
         public IActionResult StopEmailService()
         {
-            _emailBackgroundService.StopService();
-            return RedirectToAction("EmailSettings");
+            if (_emailBackgroundService.IsRunning)
+            {
+                _emailBackgroundService.StopService();
+            }
+
+            return RedirectToAction("Index", "SendEmail");
+        }
+
+        [HttpPost]
+        public IActionResult SetSendTime(string sendTime)
+        {
+            if (TimeSpan.TryParse(sendTime, out var parsedTime))
+            {
+                _sendTime = parsedTime;
+                EmailBackgroundService.UpdateSendTime(parsedTime); // Cập nhật giờ gửi cho EmailBackgroundService
+                TempData["Message"] = $"Giờ gửi email đã được cập nhật thành {_sendTime.Hours:D2}:{_sendTime.Minutes:D2}.";
+            }
+            else
+            {
+                TempData["Error"] = "Giờ gửi không hợp lệ.";
+            }
+
+            return RedirectToAction("Index", "SendEmail");
+        }
+
+        public IActionResult Index()
+        {
+            ViewBag.IsRunning = _emailBackgroundService.IsRunning;
+            ViewBag.SendTime = _sendTime;
+            return View("EmailSettings");
         }
     }
 }

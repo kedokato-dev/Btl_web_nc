@@ -7,30 +7,47 @@ namespace Btl_web_nc.Services
     public class EmailNotificationService
     {
         private readonly IUserRepository _userRepository;
+        private readonly INewsletterRepository _newsletterRepository;
         private readonly SendMailServices _sendMailServices;
 
-        public EmailNotificationService(IUserRepository userRepository, SendMailServices sendMailServices)
+        public EmailNotificationService(
+            IUserRepository userRepository,
+            INewsletterRepository newsletterRepository,
+            SendMailServices sendMailServices)
         {
             _userRepository = userRepository;
+            _newsletterRepository = newsletterRepository;
             _sendMailServices = sendMailServices;
         }
 
-        public async Task SendPeriodicEmailsAsync()
+        public async Task SendEmailsForNewsletterAsync()
         {
-            var users = await _userRepository.GetAllUsersAsync();
+            var newsletters = await _newsletterRepository.GetNewsletters();
 
-            foreach (var user in users)
+            foreach (var newsletter in newsletters)
             {
-                var emailBody = new StringBuilder();
-                emailBody.Append("<h1>Thông báo bài viết mới</h1>");
-                emailBody.Append("<p>Chào bạn, đây là danh sách bài viết mới nhất:</p>");
-                emailBody.Append("<ul>");
-                emailBody.Append("<li>Bài viết 1</li>");
-                emailBody.Append("<li>Bài viết 2</li>");
-                emailBody.Append("<li>Bài viết 3</li>");
-                emailBody.Append("</ul>");
+                var users = await _userRepository.GetUsersByNewsletterIdAsync(newsletter.Id);
 
-                await _sendMailServices.SendEmailAsync(user.Email, "Thông báo bài viết mới", emailBody.ToString());
+                foreach (var user in users)
+                {
+                    var emailBody = new StringBuilder();
+                    emailBody.Append("<h1>Thông báo bài viết mới từ NguoiTrongNganh.com</h1>");
+                    emailBody.Append($"<p>Chào {user.Name}, đây là danh sách bài viết mới nhất từ {newsletter.Name}:</p>");
+                    emailBody.Append("<ul>");
+
+                    var articles = await _newsletterRepository.GetLatestArticlesByNewsletterIdAsync(newsletter.Id);
+                    foreach (var article in articles)
+                    {
+                        emailBody.Append($"<li>{article.Title}</li>");
+                        emailBody.Append($"<p>{article.Summary}</p>");
+                        emailBody.Append($"<a href='{article.Link}'>Xem bài viết</a>");
+                    }
+                    emailBody.Append("</ul>");
+                    emailBody.Append("<p>Cảm ơn bạn đã theo dõi!</p>");
+                    emailBody.Append("</ul>");
+
+                    await _sendMailServices.SendEmailAsync(user.Email, $"Thông báo từ {newsletter.Name}", emailBody.ToString());
+                }
             }
         }
     }

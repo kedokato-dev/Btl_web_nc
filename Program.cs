@@ -37,6 +37,8 @@ builder.Services.AddScoped<NewsletterServices>();
 builder.Services.AddSingleton<EmailBackgroundService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<EmailBackgroundService>());
 
+builder.Services.AddHostedService<EmailBackgroundService>();
+
 // service rss feed
 // Thêm vào Program.cs trong phần ConfigureServices
 builder.Services.AddScoped<RssService>();

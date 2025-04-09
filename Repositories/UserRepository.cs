@@ -16,9 +16,13 @@ namespace Btl_web_nc.Repositories
             _context = context;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        // ...existing methods...
+
+        public async Task<IEnumerable<User>> GetUsersByNewsletterIdAsync(int newsletterId)
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Where(u => u.Subscriptions.Any(ns => ns.NewsletterId == newsletterId))
+                .ToListAsync();
         }
     }
 }

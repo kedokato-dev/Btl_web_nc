@@ -10,6 +10,6 @@ namespace Btl_web_nc.Repositories
     {
         Task<IEnumerable<Newsletter>> GetNewsletters();
         Task<IEnumerable<Newsletter>> GetNewslettersByTopicId(int topicId);
-
+        Task<IEnumerable<Article>> GetLatestArticlesByNewsletterIdAsync(int newsletterId);
     }
 }
