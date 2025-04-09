@@ -30,7 +30,7 @@ namespace Btl_web_nc.Controllers
             return View(profiles);
         }
 
-        [Authorize (Roles ="User, Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
@@ -50,6 +50,48 @@ namespace Btl_web_nc.Controllers
             return View(profile);
         }
 
+
+        [Authorize(Roles = "User, Admin")]
+        [HttpGet]
+        public async Task<IActionResult> EditMyProfile()
+        {
+            var userId = User.FindFirst("Id")?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var profile = await _profileService.GetProfileByIdAsync(int.Parse(userId));
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return View(profile);
+        }
+
+        [Authorize(Roles = "User, Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditMyProfile(User user)
+        {
+            // lấy userId từ claims
+            var userId = User.FindFirst("Id")?.Value;
+            if (userId == null || user.Id.ToString() != userId)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await _profileService.UpdateProfileAsync(user);
+                return RedirectToAction("MyProfile");
+            }
+
+            return View(user);
+        }
+
+
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -61,7 +103,7 @@ namespace Btl_web_nc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _profileService.AddProfileAsync(user);   
+                await _profileService.AddProfileAsync(user);
                 return RedirectToAction("Index");
             }
             return View(user);

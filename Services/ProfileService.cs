@@ -31,7 +31,13 @@ namespace Btl_web_nc.Services
 
         public async Task UpdateProfileAsync(User user)
         {
-            await _profileRepository.UpdateAsync(user);
+            var existingUser = await _profileRepository.GetByIdAsync(user.Id);
+            if (existingUser != null)
+            {
+                existingUser.Name = user.Name;
+                existingUser.Email = user.Email;
+                await _profileRepository.UpdateAsync(existingUser);
+            }
         }
 
         public async Task DeleteProfileAsync(int id)
