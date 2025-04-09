@@ -18,27 +18,26 @@ namespace Btl_web_nc.Repositories
             _context = context;
         }
 
-        public Task AddSubscription(Subscription subscription)
+        public async Task AddSubscription(Subscription subscription)
         {
-            _context.Subscriptions.Add(subscription);
-            return _context.SaveChangesAsync();
+            await _context.Subscriptions.AddAsync(subscription);
+             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteSubscription(int id)
+        public async Task DeleteSubscription(int id)
         {
             var subscription = _context.Subscriptions.Find(id);
             if (subscription != null)
             {
                 _context.Subscriptions.Remove(subscription);
-                return _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
-            return Task.CompletedTask;
         }
 
-        public Task UpdateSubscription(Subscription subscription)
+        public async Task UpdateSubscription(Subscription subscription)
         {
-            _context.Subscriptions.Update(subscription);
-            return _context.SaveChangesAsync();
+             _context.Subscriptions.Update(subscription);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<SubscriptionsViewModel>> GetUserSubscriptionsByEmail(string email)
@@ -49,7 +48,7 @@ namespace Btl_web_nc.Repositories
                 .Where(s => s.User.Email == email)
                 .Select(s => new SubscriptionsViewModel
                 {
-                    Id = s.Id,
+                    Id = (int)s.Id,
                     UserName = s.User.Name,
                     NewsletterName = s.Newsletter.Name,
                     Frequency = s.Frequency,
@@ -63,6 +62,13 @@ namespace Btl_web_nc.Repositories
         public async Task<IEnumerable<Subscription>> GetAllSubscriptions()
         {
             return await _context.Subscriptions.ToListAsync();
+        }
+
+        public async Task<Subscription> GetSubAndName(int id)
+        {
+            return await _context.Subscriptions
+                .Include(s => s.Newsletter) // Nối bảng Newsletter
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 

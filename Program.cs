@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRegisterRepository, RegisterRepository>();
 builder.Services.AddScoped<LoginService>();
@@ -32,6 +30,9 @@ builder.Services.AddScoped<EmailNotificationService>();
 
 builder.Services.AddScoped<INewsletterRegisterRepository, NewsletterRegisterRepository>();
 builder.Services.AddScoped<NewsletterRegisterServices>();
+
+builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
+builder.Services.AddScoped<NewsletterServices>();
 
 builder.Services.AddSingleton<EmailBackgroundService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<EmailBackgroundService>());
@@ -68,6 +69,10 @@ builder.Services.AddAuthorization(options =>
      options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
     options.AddPolicy("BannedOnly", policy => policy.RequireRole("Banned"));
 });
+
+builder.Services.AddControllersWithViews()
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
 
 
 var app = builder.Build();

@@ -48,5 +48,7 @@ namespace Btl_web_nc.Services
             await _newsletterRegisterRepository.UpdateSubscription(subscription);
         }
 
+        
+
     }
 }

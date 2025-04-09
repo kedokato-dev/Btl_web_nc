@@ -1,16 +1,34 @@
+@using System.Security.Claims
+@inject Btl_web_nc.Services.NewsletterServices NewsletterServices
 @model Btl_web_nc.Models.Subscription
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    // Lấy danh sách các bản tin từ service
+    var newsletters = (await NewsletterServices.GetNewsletters())
+    .Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Name })
+    .ToList();
+
+
+}
 
 <div class="container mt-5">
     <h2 class="text-warning">Chỉnh sửa đăng ký</h2>
     <form asp-action="Edit" method="post" class="mt-4">
-        <input type="hidden" asp-for="Id" />
-        <div class="mb-3">
-            <label for="NewsletterId" class="form-label">Bản tin</label>
-            <input asp-for="NewsletterId" class="form-control" />
+        <input asp-for="UserId" class="form-control" type="hidden"
+            value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+        <div class="form-group mb-3">
+            <label asp-for="NewsletterId" class="control-label">Bản tin</label>
+            <select asp-for="NewsletterId" class="form-select" asp-items="newsletters"></select>
+            <span asp-validation-for="NewsletterId" class="text-danger"></span>
         </div>
-        <div class="mb-3">
-            <label for="Frequency" class="form-label">Tần suất</label>
-            <input asp-for="Frequency" class="form-control" />
+        <div class="form-group mb-3">
+            <label asp-for="Frequency" class="control-label">Tần suất</label>
+            <select asp-for="Frequency" class="form-select">
+                <option value="Daily">Hàng ngày</option>
+                <option value="Weekly">Hàng tuần</option>
+            </select>
+            <span asp-validation-for="Frequency" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>

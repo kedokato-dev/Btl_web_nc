@@ -1,16 +1,64 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Security.Claims
+@inject Btl_web_nc.Services.NewsletterServices NewsletterServices
 @model Btl_web_nc.Models.Subscription
 
-<div class="container mt-5">
-    <h2 class="text-primary">Đăng ký nhận tin</h2>
-    <form asp-action="Subscribe" method="post" class="mt-4">
-        <div class="mb-3">
-            <label for="NewsletterId" class="form-label">Bản tin</label>
-            <input asp-for="NewsletterId" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label for="Frequency" class="form-label">Tần suất</label>
-            <input asp-for="Frequency" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-success">Đăng ký</button>
-    </form>
+
+
+
+@{
+    // Lấy danh sách các bản tin từ service
+    var newsletters = (await NewsletterServices.GetNewsletters())
+    .Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Name })
+    .ToList();
+
+    
+}
+
+@{
+    ViewData["Title"] = "Đăng ký nhận tin";
+}
+
+<h1>Đăng ký nhận tin</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Subscribe" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                @* <label asp-for="UserId" class="control-label" type= "hidden">Người dùng</label> *@
+                @* lấy id trong claim ra rồi gán vào ô inout này *@
+                <input asp-for="UserId" class="form-control" type="hidden"
+                    value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NewsletterId" class="control-label">Bản tin</label>
+                <select asp-for="NewsletterId" class="form-select" asp-items="newsletters"></select>
+                <span asp-validation-for="NewsletterId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Frequency" class="control-label">Tần suất</label>
+                <select asp-for="Frequency" class="form-select">
+                    <option value="Daily">Hàng ngày</option>
+                    <option value="Weekly">Hàng tuần</option>
+                </select>
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+            </div>
+
+            <!-- Trường ẩn cho LastSentAt -->
+            <input asp-for="LastSentAt" type="hidden" />
+
+            <!-- Trường ẩn cho CreatedAt -->
+            <input asp-for="CreatedAt" type="hidden" />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </form>
+    </div>
 </div>

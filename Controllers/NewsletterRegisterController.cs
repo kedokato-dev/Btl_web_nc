@@ -1,9 +1,12 @@
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Btl_web_nc.Data;
 using Btl_web_nc.Models;
 using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Btl_web_nc.Controllers
 {
@@ -11,13 +14,16 @@ namespace Btl_web_nc.Controllers
     public class NewsletterRegisterController : Controller
     {
         private readonly NewsletterRegisterServices _newsletterRegisterServices;
+        private readonly TopicServices _topicServices;
+        private readonly AppDbContext _context;
 
-        public NewsletterRegisterController(NewsletterRegisterServices newsletterRegisterServices)
+        public NewsletterRegisterController(NewsletterRegisterServices newsletterRegisterServices, AppDbContext context)
         {
             _newsletterRegisterServices = newsletterRegisterServices;
+             _context = context;
         }
 
-         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             string? email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; // Lấy email từ claim
@@ -33,7 +39,7 @@ namespace Btl_web_nc.Controllers
         [HttpGet("Subscribe")]
         public IActionResult Subscribe()
         {
-            return View(); // Hiển thị form đăng ký nhận tin
+            return View();
         }
 
         [HttpPost("Subscribe")]
@@ -41,23 +47,39 @@ namespace Btl_web_nc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(subscription); // Trả về view nếu dữ liệu không hợp lệ
+                subscription.CreatedAt = DateTime.Now;
+                subscription.LastSentAt = null;
+                await _newsletterRegisterServices.AddSubscription(subscription);
+                TempData["SuccessMessage"] = "Đăng ký thành công!";
+                return RedirectToAction("Index");
             }
 
-            await _newsletterRegisterServices.AddSubscription(subscription);
-            return RedirectToAction("Index"); // Chuyển hướng về danh sách đăng ký
+            // Ghi log lỗi nếu dữ liệu không hợp lệ
+            var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                   .Select(e => e.ErrorMessage)
+                                   .ToList();
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error);
+            }
+
+            return View(subscription);
         }
 
         [HttpGet("Unsubscribe/{id}")]
         public async Task<IActionResult> Unsubscribe(int id)
         {
-            var subscription = await _newsletterRegisterServices.GetSubscriptionById(id);
+             var subscription = await _context.Subscriptions
+            .Include(s => s.Newsletter) // Nối bảng Newsletter
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+            // var subscription = await _newsletterRegisterServices.GetSubscriptionById(id);
             if (subscription == null)
             {
-                return NotFound(); // Trả về lỗi nếu không tìm thấy đăng ký
+                return NotFound();
             }
 
-            return View(subscription); // Hiển thị xác nhận hủy đăng ký
+            return View(subscription);
         }
 
         [HttpPost("Unsubscribe/{id}")]
@@ -82,7 +104,7 @@ namespace Btl_web_nc.Controllers
         [HttpPost("Edit/{id}")]
         public async Task<IActionResult> Edit(Subscription subscription)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return View(subscription); // Trả về view nếu dữ liệu không hợp lệ
             }
@@ -90,5 +112,8 @@ namespace Btl_web_nc.Controllers
             await _newsletterRegisterServices.UpdateSubscription(subscription);
             return RedirectToAction("Index"); // Chuyển hướng về danh sách đăng ký
         }
+
     }
+
+
 }

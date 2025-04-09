@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Btl_web_nc.Models;
 
@@ -9,7 +8,9 @@ public partial class Subscription
 
     public int UserId { get; set; }
 
+
     public int NewsletterId { get; set; }
+
 
     public string? Frequency { get; set; }
 

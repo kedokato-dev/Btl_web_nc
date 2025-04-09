@@ -51,6 +51,7 @@ namespace Btl_web_nc.Controllers
                 await _topicServices.AddTopicAsync(topic);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(topic);
         }
 
