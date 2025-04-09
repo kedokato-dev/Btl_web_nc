@@ -15,5 +15,6 @@ namespace Btl_web_nc.Repositories
 
         public Task DeleteAsync(int id);
         public Task<User?> GetByEmailAsync(string email);
+        Task<bool> EmailExistsAsync(string email);
     }
 }

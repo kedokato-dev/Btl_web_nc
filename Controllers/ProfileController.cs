@@ -84,8 +84,16 @@ namespace Btl_web_nc.Controllers
 
             if (!ModelState.IsValid)
             {
-                await _profileService.UpdateProfileAsync(user);
-                return RedirectToAction("MyProfile");
+                var result = await _profileService.UpdateProfileAsync(user);
+                if (!result.Success)
+                {
+                    // Hiển thị thông báo lỗi trên giao diện
+                    ViewBag.ErrorMessage = result.ErrorMessage;
+                    return View(user); // Trả về giao diện với thông báo lỗi
+                }
+
+                // Nếu thành công, chuyển hướng hoặc hiển thị thông báo thành công
+                return RedirectToAction("MyProfile", "Profile"); // Chuyển hướng về trang thông tin cá nhân
             }
 
             return View(user);

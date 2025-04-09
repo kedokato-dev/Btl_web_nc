@@ -32,6 +32,11 @@ namespace Btl_web_nc.Repositories
             }
         }
 
+        public Task<bool> EmailExistsAsync(string email)
+        {
+            return _context.Users.AnyAsync(u => u.Email == email);
+        }
+
         public async Task<IEnumerable<User>> GetAllAsync()
         {
           return await _context.Users.ToListAsync();

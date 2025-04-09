@@ -29,15 +29,25 @@ namespace Btl_web_nc.Services
             await _profileRepository.AddAsync(user);
         }
 
-        public async Task UpdateProfileAsync(User user)
+        public async Task<(bool Success, string? ErrorMessage)> UpdateProfileAsync(User user)
         {
             var existingUser = await _profileRepository.GetByIdAsync(user.Id);
             if (existingUser != null)
             {
-                existingUser.Name = user.Name;
-                existingUser.Email = user.Email;
-                await _profileRepository.UpdateAsync(existingUser);
+                var emailExists = await _profileRepository.EmailExistsAsync(user.Email);
+                if (!emailExists || existingUser.Email == user.Email)
+                {
+                    existingUser.Name = user.Name;
+                    existingUser.Email = user.Email;
+                    await _profileRepository.UpdateAsync(existingUser);
+                    return (true, null); // Thành công
+                }
+                else
+                {
+                    return (false, "Email đã tồn tại trong hệ thống"); // Lỗi email tồn tại
+                }
             }
+            return (false, "Không tìm thấy người dùng"); // Lỗi không tìm thấy người dùng
         }
 
         public async Task DeleteProfileAsync(int id)

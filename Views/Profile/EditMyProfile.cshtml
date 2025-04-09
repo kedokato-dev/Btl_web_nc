@@ -4,6 +4,15 @@
     ViewData["Title"] = "Cập nhật thông tin cá nhân";
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage as string))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+
+
 <div class="container py-5">
     <div class="text-center mb-4">
         <h2 class="text-primary">
