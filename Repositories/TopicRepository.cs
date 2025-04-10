@@ -39,7 +39,7 @@ namespace Btl_web_nc.Repositories
 
         public async Task UpdateAsync(Topic topic)
         {
-            _context.Topics.Update(topic);
+            // _context.Topics.Update(topic);
             await _context.SaveChangesAsync();
         }
 

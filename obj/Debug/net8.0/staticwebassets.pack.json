@@ -21,6 +21,14 @@
       "PackagePath": "staticwebassets\\css\\news.css"
     },
     {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\phan_trang\\ligne.css",
+      "PackagePath": "staticwebassets\\css\\phan_trang\\ligne.css"
+    },
+    {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\phan_trang\\paginate.css",
+      "PackagePath": "staticwebassets\\css\\phan_trang\\paginate.css"
+    },
+    {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -35,6 +43,14 @@
     {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\images\\logo.png",
       "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\js\\phan_trang\\paginate.js",
+      "PackagePath": "staticwebassets\\js\\phan_trang\\paginate.js"
+    },
+    {
+      "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\js\\phan_trang\\paginate.min.js",
+      "PackagePath": "staticwebassets\\js\\phan_trang\\paginate.min.js"
     },
     {
       "Id": "F:\\WorkSpace\\Btl_web_nc\\wwwroot\\js\\site.js",

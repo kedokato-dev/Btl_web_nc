@@ -3,6 +3,9 @@
     ViewData["Title"] = "Quản lý tài khoản";
 }
 
+<link rel="stylesheet" href="~/css/phan_trang/ligne.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/phan_trang/paginate.css" asp-append-version="true">
+
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary"><i class="bi bi-people-fill me-2"></i>Danh sách tài khoản</h2>
@@ -30,43 +33,43 @@
             else
             {
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width: 10%;" class="text-center">ID</th>
-                                <th style="width: 30%;">Email</th>
-                                <th style="width: 20%;">Tên</th>
-                                <th style="width: 15%;" class="text-center">Vai trò</th>
-                                <th style="width: 25%;" class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var user in Model)
-                            {
-                                <tr>
-                                    <td class="text-center fw-bold">@user.Id</td>
-                                    <td>@user.Email</td>
-                                    <td>@(!string.IsNullOrWhiteSpace(user.Name) ? user.Name : "<span class='text-danger'>Chưa cập nhật</span>")</td>
-                                    <td class="text-center">
-                                        @(user.RoleId == 0 ? 
-                                            Html.Raw("<span class='badge bg-success'>Quản trị viên</span>") : 
-                                            Html.Raw("<span class='badge bg-secondary'>Người dùng</span>"))
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Sửa">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Xóa">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+    <table class="table table-hover table-striped mb-0 myTable">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 10%;" class="text-center">ID</th>
+                <th style="width: 30%;">Email</th>
+                <th style="width: 20%;">Tên</th>
+                <th style="width: 15%;" class="text-center">Vai trò</th>
+                <th style="width: 25%;" class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="text-center fw-bold">@user.Id</td>
+                    <td>@user.Email</td>
+                    <td>@(!string.IsNullOrWhiteSpace(user.Name) ? user.Name : "<span class='text-danger'>Chưa cập nhật</span>")</td>
+                    <td class="text-center">
+                        @(user.RoleId == 0 ? 
+                            Html.Raw("<span class='badge bg-success'>Quản trị viên</span>") : 
+                            Html.Raw("<span class='badge bg-secondary'>Người dùng</span>"))
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Sửa">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Xóa">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
             }
         </div>
     </div>
@@ -80,6 +83,20 @@
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
+        });
+    </script>
+
+
+    <script src="~/js/phan_trang/paginate.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let options = {
+                numberPerPage: 5, // Số dòng mỗi trang
+                goBar: true, // Hiển thị thanh "Go to page"
+                pageCounter: true // Hiển thị số trang
+            };
+
+            paginate.init('.myTable', options);
         });
     </script>
 }

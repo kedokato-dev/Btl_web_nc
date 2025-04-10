@@ -1,80 +1,236 @@
-@model IEnumerable<Btl_web_nc.Models.Topic>
 @{
     ViewData["Title"] = "Quản lý chủ đề";
 }
 
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary"><i class="bi bi-tag-fill me-2"></i>Danh sách chủ đề</h2>
-        <a class="btn btn-success" asp-action="Create">
-            <i class="bi bi-plus-circle me-1"></i> Thêm mới
-        </a>
+<h1 class="h3 mb-4 text-gray-800">Quản lý chủ đề</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách chủ đề</h6>
+        <button class="btn btn-primary" id="addTopicBtn">Thêm Chủ Đề</button>
     </div>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="topicTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 10%">ID</th>
+                        <th style="width: 50%">Tên chủ đề</th>
+                        <th class="text-center" style="width: 20%">Chủ đề hot</th>
+                        <th class="text-center" style="width: 20%">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- DataTables sẽ điền dữ liệu vào đây -->
+                </tbody>
+            </table>
         </div>
-    }
+    </div>
+</div>
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            @if (!Model.Any())
-            {
-                <div class="alert alert-info m-3 mb-0">
-                    <i class="bi bi-info-circle me-2"></i> Chưa có chủ đề nào. Hãy thêm mới!
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width: 10%;" class="text-center">ID</th>
-                                <th style="width: 50%;">Tên chủ đề</th>
-                                <th style="width: 20%;" class="text-center">Chủ đề hot</th>
-                                <th style="width: 20%;" class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="text-center fw-bold">@item.Id</td>
-                                    <td>@item.Name</td>
-                                   <td class="text-center">@(item.IsActive.HasValue && item.IsActive.Value ? "Có" : "Không")</td>
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit"
-                                                asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Sửa">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete"
-                                                asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Xóa">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+<!-- Modal Thêm/Sửa -->
+<div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="topicModalLabel">Thêm/Sửa Chủ Đề</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="topicForm">
+                    <input type="hidden" id="topicId" />
+                    <div class="mb-3">
+                        <label for="topicName" class="form-label">Tên Chủ Đề</label>
+                        <input type="text" class="form-control" id="topicName" required />
+                        <div class="invalid-feedback">Vui lòng nhập tên chủ đề.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topicIsActive" class="form-label">Chủ Đề Hot</label>
+                        <select class="form-select" id="topicIsActive">
+                            <option value="true">Có</option>
+                            <option value="false">Không</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="saveTopicBtn">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác Nhận Xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa chủ đề này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        // Kích hoạt tooltips
-        document.addEventListener('DOMContentLoaded', function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
+        $(document).ready(function () {
+            // Khởi tạo DataTable
+            var table = $('#topicTable').DataTable({
+                processing: true,
+                serverSide: false, // Để true nếu bạn muốn server xử lý phân trang
+                ajax: {
+                    url: "/api/Topicapi",
+                    dataSrc: ""
+                },
+                columns: [
+                    { 
+                        data: "id", 
+                        className: "text-center fw-bold" 
+                    },
+                    { 
+                        data: "name" 
+                    },
+                    { 
+                        data: "isActive", 
+                        className: "text-center",
+                        render: function (data) {
+                            return data ? "Có" : "Không";
+                        }
+                    },
+                    {
+                        data: "id",
+                        className: "text-center",
+                        orderable: false,
+                        render: function (data) {
+                            return `
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${data}" title="Sửa">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${data}" title="Xóa">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json"
+                },
+                responsive: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Tất cả"]]
+            });
+
+            // Mở modal thêm mới
+            $('#addTopicBtn').click(function () {
+                $('#topicId').val('');
+                $('#topicName').val('').removeClass('is-invalid');
+                $('#topicIsActive').val('true');
+                $('#topicModalLabel').text('Thêm Chủ Đề');
+                $('#topicModal').modal('show');
+            });
+
+            // Mở modal sửa
+            $(document).on('click', '.edit-btn', function () {
+                const id = $(this).data('id');
+                $.get(`/api/TopicApi/${id}`, function (data) {
+                    $('#topicId').val(data.id);
+                    $('#topicName').val(data.name).removeClass('is-invalid');
+                    $('#topicIsActive').val(data.isActive.toString());
+                    $('#topicModalLabel').text('Sửa Chủ Đề');
+                    $('#topicModal').modal('show');
+                });
+            });
+
+            // Lưu (Thêm/Sửa)
+            $('#saveTopicBtn').click(function () {
+                // Kiểm tra xác thực
+                if (!$('#topicName').val().trim()) {
+                    $('#topicName').addClass('is-invalid');
+                    return;
+                }
+                
+                const id = $('#topicId').val();
+                const topic = {
+                    name: $('#topicName').val().trim(),
+                    isActive: $('#topicIsActive').val() === 'true'
+                };
+
+                if (id) {
+                    // Sửa
+                    topic.id = parseInt(id);
+                    $.ajax({
+                        url: `/api/TopicApi/${id}`,
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(topic),
+                        success: function () {
+                            $('#topicModal').modal('hide');
+                            table.ajax.reload(); // Tải lại bảng dữ liệu
+                            toastr.success('Sửa thông tin thành công!');
+                        },
+                        error: function (xhr) {
+                            toastr.error('Lỗi khi cập nhật: ' + xhr.responseText);
+                        }
+                    });
+                } else {
+                    // Thêm mới
+                    $.ajax({
+                        url: '/api/TopicApi',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(topic),
+                        success: function () {
+                            $('#topicModal').modal('hide');
+                            table.ajax.reload(); // Tải lại bảng dữ liệu
+                            toastr.success('Thêm thành công!');
+                        },
+                        error: function (xhr) {
+                            toastr.error('Lỗi khi thêm: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+
+            // Mở modal xóa
+            $(document).on('click', '.delete-btn', function () {
+                const id = $(this).data('id');
+                $('#confirmDeleteBtn').data('id', id);
+                $('#deleteModal').modal('show');
+            });
+
+            // Xác nhận xóa
+            $('#confirmDeleteBtn').click(function () {
+                const id = $(this).data('id');
+                $.ajax({
+                    url: `/api/TopicApi/${id}`,
+                    type: 'DELETE',
+                    success: function () {
+                        $('#deleteModal').modal('hide');
+                        table.ajax.reload(); // Tải lại bảng dữ liệu
+                        toastr.success('Xóa thành công!');
+                    },
+                    error: function(xhr) {
+                        toastr.error('Lỗi khi xóa: ' + xhr.responseText);
+                    }
+                });
+            });
+            
+            // Xử lý form validation khi người dùng nhập
+            $('#topicName').on('input', function() {
+                if ($(this).val().trim()) {
+                    $(this).removeClass('is-invalid');
+                }
             });
         });
     </script>
