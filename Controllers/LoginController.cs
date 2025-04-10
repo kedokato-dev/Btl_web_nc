@@ -84,6 +84,7 @@ namespace Btl_web_nc.Controllers
                 authProperties);
 
             _logger.LogInformation($"User {user.Email} logged in at {DateTime.Now}");
+            TempData["SuccessMessage"] = "Đăng nhập thành công! Chào mừng bạn trở lại!";
             return RedirectToAction("Index", "Home");
         }
 

@@ -21,6 +21,11 @@ namespace Btl_web_nc.ViewModel
         [StringLength(20, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 đến 20 ký tự")]
         public string PassWord { get; set; } = null!;
 
+        [Required(ErrorMessage = "Vui lòng xác nhận mật khẩu.")]
+        [DataType(DataType.Password)]
+        [Compare("PassWord", ErrorMessage = "Mật khẩu và xác nhận mật khẩu không khớp.")]
+        public string ConfirmPassword { get; set; }
+
         [Required(ErrorMessage = "Vui lòng chọn vai trò")]
         public int RoleId { get; set; }
     }

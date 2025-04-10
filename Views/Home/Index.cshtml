@@ -40,3 +40,18 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                toastr.success(successMessage, 'Thành công', {
+                    timeOut: 5000,
+                    closeButton: true,
+                    progressBar: true
+                });
+            }
+        });
+    </script>
+}

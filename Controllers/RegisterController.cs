@@ -55,7 +55,7 @@ namespace Btl_web_nc.Controllers
                 catch (DbUpdateException ex)
                 {
                     // Handle database-specific errors
-                    ModelState.AddModelError("", "Lỗi cơ sở dữ liệu: " + ex.InnerException?.Message ?? ex.Message);
+                    // ModelState.AddModelError("", "Lỗi cơ sở dữ liệu: " + ex.InnerException?.Message ?? ex.Message);
                     return View();
                 }
                 catch (Exception ex)
@@ -67,40 +67,6 @@ namespace Btl_web_nc.Controllers
 
             return View(model);
 
-
-
-            // if (Password != ConfirmPassword)
-            // {
-            //     ModelState.AddModelError("", "Mật khẩu và xác nhận mật khẩu không khớp.");
-            //     return View();
-            // }
-
-            // var user = new User
-            // {
-            //     Name = Name,
-            //     Email = Email,
-            //     PassWord = BCrypt.Net.BCrypt.HashPassword(Password), // Hash mật khẩu
-            //     CreatedAt = DateTime.Now,
-            //     IsEmailConfirmed = false
-            // };
-
-            // try
-            // {
-            //     await _registerService.RegisterUser(user);
-            //     TempData["SuccessMessage"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác thực.";
-            //     return RedirectToAction("Index", "Login");
-            // }
-            // catch (DbUpdateException ex)
-            // {
-            //     // Handle database-specific errors
-            //     ModelState.AddModelError("", "Lỗi cơ sở dữ liệu: " + ex.InnerException?.Message ?? ex.Message);
-            //     return View();
-            // }
-            // catch (Exception ex)
-            // {
-            //     ModelState.AddModelError("", ex.Message);
-            //     return View();
-            // }
         }
 
         // Xác thực email
