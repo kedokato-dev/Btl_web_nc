@@ -1,4 +1,4 @@
-@model Btl_web_nc.Models.User
+@model Btl_web_nc.ViewModel.CreateAccountViewModel
 
 @{
     ViewData["Title"] = "Tạo tài khoản mới";
@@ -13,28 +13,29 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <form asp-action="Create" method="post">
+                <vc:validation-summary class="text-danger" />
                 <div class="mb-3">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="Email" name="Email" required />
+                    <input asp-for="Email" class="form-control" id="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="Name" class="form-label">Tên</label>
-                    <input type="text" class="form-control" id="Name" name="Name" required />
+                    <input asp-for="Name" class="form-control" id="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="Password" class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" id="Password" name="Password" required />
+                    <label for="PassWord" class="form-label">Mật khẩu</label>
+                    <input asp-for="PassWord" type="password" class="form-control" id="PassWord" />
+                    <span asp-validation-for="PassWord" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="RoleId" class="form-label">Vai trò</label>
-                    <select class="form-select" id="RoleId" name="RoleId">
+                    <select asp-for="RoleId" class="form-select" id="RoleId">
                         <option value="0">Quản trị viên</option>
                         <option value="1">Người dùng</option>
                     </select>
-                </div>
-                <div class="mb-3">
-                    <label for="PreferredTime" class="form-label">Thời gian ưu tiên</label>
-                    <input type="time" class="form-control" id="PreferredTime" name="PreferredTime" />
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
                 <a asp-action="Index" class="btn btn-secondary">Hủy</a>

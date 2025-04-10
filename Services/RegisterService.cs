@@ -71,7 +71,7 @@ namespace Btl_web_nc.Services
                     Body = $@"
                         <html>
                         <body>
-                            <p>Cảm ơn bạn đã đăng ký!</p>
+                            <p>Cảm ơn bạn đã đăng ký tài khoản!</p>
                             <p>Vui lòng nhấp vào liên kết dưới đây để kích hoạt tài khoản của bạn:</p>
                             <p><a href='{confirmationLink}'>Xác nhận tài khoản</a></p>
                         </body>

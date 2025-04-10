@@ -1,3 +1,5 @@
+@model Btl_web_nc.ViewModel.CreateAccountViewModel
+
 @{
     ViewData["Title"] = "Đăng ký";
 }
@@ -13,43 +15,43 @@
                 </div>
                 <div class="card-body">
                     <form asp-controller="Register" asp-action="Index" method="post">
-                         @Html.AntiForgeryToken()
-                         
-                         @if (!ViewData.ModelState.IsValid)
-                         {
-                            <div class="text-danger">
-                                @Html.ValidationSummary(false)
-                            </div>
-                         }
-                         
+                        @Html.AntiForgeryToken()
+
+                        <vc:validation-summary class="text-danger" />
+
                         <div class="form-group">
-                            <label for="registerName">Họ và tên</label>
+                            <label asp-for="Name" class="form-label">Họ và tên</label>
                             <i class="fas fa-user input-icon"></i>
-                            <input type="text" class="form-control icon-input" id="registerName" name="Name"
-                                placeholder="Nhập họ và tên" required>
+                            <input asp-for="Name" class="form-control icon-input" id="registerName" placeholder="Nhập họ và tên" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <label for="registerEmail">Email</label>
+                            <label asp-for="Email" class="form-label">Email</label>
                             <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" class="form-control icon-input" id="registerEmail" name="Email"
-                                placeholder="Nhập địa chỉ email" required>
+                            <input asp-for="Email" class="form-control icon-input" id="registerEmail" placeholder="Nhập địa chỉ email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <label for="registerPassword">Mật khẩu</label>
+                            <label asp-for="PassWord" class="form-label">Mật khẩu</label>
                             <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control icon-input" id="registerPassword"
-                                name="Password" placeholder="Tạo mật khẩu" required>
+                            <input asp-for="PassWord" type="password" class="form-control icon-input" id="registerPassword" placeholder="Tạo mật khẩu" />
+                            <span asp-validation-for="PassWord" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <label for="registerConfirmPassword">Xác nhận mật khẩu</label>
+                            <label for="registerConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
                             <i class="fas fa-lock input-icon"></i>
-                            <input type="password" class="form-control icon-input" id="registerConfirmPassword"
-                                name="ConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+                            <input type="password" class="form-control icon-input" id="registerConfirmPassword" name="ConfirmPassword" placeholder="Xác nhận mật khẩu" />
+                            <span class="text-danger"> <!-- Add validation for ConfirmPassword manually if needed --> </span>
                         </div>
+
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="agreeTerms" name="AgreeTerms" required>
                             <label class="form-check-label" for="agreeTerms">Tôi đồng ý với <a href="#">điều khoản sử dụng</a> và <a href="#">chính sách bảo mật</a></label>
                         </div>
+
                         <button type="submit" class="btn btn-success btn-block custom-btn btn-register mt-4">
                             <i class="fas fa-user-plus mr-2"></i>Đăng ký
                         </button>

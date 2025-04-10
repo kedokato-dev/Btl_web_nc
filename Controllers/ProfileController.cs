@@ -7,6 +7,7 @@ using Btl_web_nc.Models;
 using Btl_web_nc.Models.ViewModels;
 using Btl_web_nc.Repositories;
 using Btl_web_nc.Services;
+using Btl_web_nc.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -117,6 +118,7 @@ namespace Btl_web_nc.Controllers
         }
 
 
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -124,14 +126,27 @@ namespace Btl_web_nc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateAccountViewModel model)
         {
             if (ModelState.IsValid)
             {
+                // Chuyển đổi từ ViewModel sang Model
+                var user = new User
+                {
+                    Email = model.Email,
+                    Name = model.Name,
+                    PassWord = model.PassWord,
+                    RoleId = model.RoleId
+                    // PreferredTime = model.PreferredTime
+                };
+
                 await _profileService.AddProfileAsync(user);
                 return RedirectToAction("Index");
             }
-            return View(user);
+
+            return View(model);
         }
 
 
