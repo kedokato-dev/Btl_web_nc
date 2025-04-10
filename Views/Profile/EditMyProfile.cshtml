@@ -1,4 +1,4 @@
-@model Btl_web_nc.Models.User
+@model Btl_web_nc.Models.ViewModels.EditProfileViewModel
 
 @{
     ViewData["Title"] = "Cập nhật thông tin cá nhân";
@@ -11,8 +11,6 @@
     </div>
 }
 
-
-
 <div class="container py-5">
     <div class="text-center mb-4">
         <h2 class="text-primary">
@@ -23,24 +21,32 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <form asp-action="EditMyProfile" method="post">
-                  <input type="hidden" asp-for="Id" />
+                <partial name="_ValidationScriptsPartial" />
+                <vc:validation-summary class="text-danger" />
+
+                <input type="hidden" asp-for="Id" />
+
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label">Email</label>
-                    <input asp-for="Email" class="form-control"  />
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Name" class="form-label">Tên</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                @* <div class="mb-3">
-                    <label asp-for="PreferredTime" class="form-label">Thời gian ưu tiên</label>
-                    <input asp-for="PreferredTime" class="form-control" type="time" />
-                    <span asp-validation-for="PreferredTime" class="text-danger"></span>
-                </div> *@
+
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
                 <a asp-action="MyProfile" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -34,6 +34,9 @@ builder.Services.AddScoped<NewsletterRegisterServices>();
 builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
 builder.Services.AddScoped<NewsletterServices>();
 
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ArticlesServices>();
+
 builder.Services.AddSingleton<EmailBackgroundService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<EmailBackgroundService>());
 
@@ -75,6 +78,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddControllersWithViews()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
+               
 
 
 var app = builder.Build();

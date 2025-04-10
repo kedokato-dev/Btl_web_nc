@@ -24,9 +24,16 @@ namespace Btl_web_nc.Services
             return await _profileRepository.GetByIdAsync(id);
         }
 
+       
         public async Task AddProfileAsync(User user)
         {
+            user.PassWord = HashPassword(user.PassWord); // Hash the password
             await _profileRepository.AddAsync(user);
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         public async Task<(bool Success, string? ErrorMessage)> UpdateProfileAsync(User user)

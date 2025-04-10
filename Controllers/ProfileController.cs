@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Btl_web_nc.Models;
+using Btl_web_nc.Models.ViewModels;
 using Btl_web_nc.Repositories;
 using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -67,36 +68,52 @@ namespace Btl_web_nc.Controllers
                 return NotFound();
             }
 
-            return View(profile);
+            // Chuyển đổi từ User sang EditProfileViewModel
+            var viewModel = new EditProfileViewModel
+            {
+                Id = profile.Id,
+                Email = profile.Email,
+                Name = profile.Name
+            };
+
+            return View(viewModel);
         }
 
         [Authorize(Roles = "User, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditMyProfile(User user)
+        public async Task<IActionResult> EditMyProfile(EditProfileViewModel model)
         {
-            // lấy userId từ claims
             var userId = User.FindFirst("Id")?.Value;
-            if (userId == null || user.Id.ToString() != userId)
+            if (userId == null || model.Id.ToString() != userId)
             {
                 return Unauthorized();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                // Lấy thông tin người dùng hiện tại
+                var user = await _profileService.GetProfileByIdAsync(model.Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                // Cập nhật các trường cần thiết
+                user.Email = model.Email;
+                user.Name = model.Name;
+
                 var result = await _profileService.UpdateProfileAsync(user);
                 if (!result.Success)
                 {
-                    // Hiển thị thông báo lỗi trên giao diện
                     ViewBag.ErrorMessage = result.ErrorMessage;
-                    return View(user); // Trả về giao diện với thông báo lỗi
+                    return View(model);
                 }
 
-                // Nếu thành công, chuyển hướng hoặc hiển thị thông báo thành công
-                return RedirectToAction("MyProfile", "Profile"); // Chuyển hướng về trang thông tin cá nhân
+                return RedirectToAction("MyProfile", "Profile");
             }
 
-            return View(user);
+            return View(model);
         }
 
 
@@ -136,7 +153,7 @@ namespace Btl_web_nc.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(User user)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 await _profileService.UpdateProfileAsync(user);
                 return RedirectToAction("Index");

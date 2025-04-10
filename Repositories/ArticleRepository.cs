@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Btl_web_nc.Repositories
 {
-    public class ArticleRepository
+    public class ArticleRepository: IArticleRepository
     {
         private readonly AppDbContext _context;
 
@@ -22,12 +22,12 @@ namespace Btl_web_nc.Repositories
                 .FirstOrDefaultAsync(n => n.Id == newsletterId);
         }
 
-        public async Task<List<Article>> GetArticlesByNewsletterIdAsync(int newsletterId)
-        {
-            return await _context.Articles
-                .Where(a => a.NewsletterId == newsletterId)
-                .ToListAsync();
-        }
+        // public async Task<List<Article>> GetArticlesByNewsletterIdAsync(int newsletterId)
+        // {
+        //     return await _context.Articles
+        //         .Where(a => a.NewsletterId == newsletterId)
+        //         .ToListAsync();
+        // }
 
         public async Task<Article> GetArticleByLinkAsync(string link)
         {
@@ -41,10 +41,10 @@ namespace Btl_web_nc.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Article>> GetAllArticlesAsync()
-        {
-            return await _context.Articles.ToListAsync();
-        }
+        // public async Task<List<Article>> GetAllArticlesAsync()
+        // {
+        //     return await _context.Articles.ToListAsync();
+        // }
 
         public async Task<List<Article>> GetAllArticlesByNewsletterIdAsync(int newsletterId)
         {
@@ -53,9 +53,12 @@ namespace Btl_web_nc.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Newsletter>> GetAllNewslettersAsync()
+
+        public IEnumerable<Article> SearchByTitle(string title)
         {
-            return await _context.Newsletters.ToListAsync();
+            return _context.Articles
+                .Where(a => a.Title.Contains(title))
+                .ToList();
         }
     }
 }
