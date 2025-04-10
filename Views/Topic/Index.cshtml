@@ -14,10 +14,11 @@
             <table class="table table-bordered" id="topicTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 10%">ID</th>
-                        <th style="width: 50%">Tên chủ đề</th>
-                        <th class="text-center" style="width: 20%">Chủ đề hot</th>
-                        <th class="text-center" style="width: 20%">Thao tác</th>
+                        <th class="text-center" style="width: 5%">ID</th>
+                        <th style="width: 30%">Tên chủ đề</th>
+                        <th style="width: 35%">Mô tả</th>
+                        <th class="text-center" style="width: 15%">Chủ đề hot</th>
+                        <th class="text-center" style="width: 15%">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,10 @@
                         <label for="topicName" class="form-label">Tên Chủ Đề</label>
                         <input type="text" class="form-control" id="topicName" required />
                         <div class="invalid-feedback">Vui lòng nhập tên chủ đề.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topicDescription" class="form-label">Mô Tả</label>
+                        <textarea class="form-control" id="topicDescription" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="topicIsActive" class="form-label">Chủ Đề Hot</label>
@@ -92,38 +97,45 @@
                     dataSrc: ""
                 },
                 columns: [
-                    { 
-                        data: "id", 
-                        className: "text-center fw-bold" 
+                    {
+                        data: "id",
+                        className: "text-center fw-bold"
                     },
-                    { 
-                        data: "name" 
+                    {
+                        data: "name"
                     },
-                    { 
-                        data: "isActive", 
-                        className: "text-center",
+                    {
+                        data: "description",
                         render: function (data) {
-                            return data ? "Có" : "Không";
+                            return data || '<em class="text-muted">Không có mô tả</em>';
                         }
                     },
                     {
-                        data: "id",
+                        data: "isActive",
+                        className: "text-center",
+                        render: function (data) {
+                            return data ? '<span class="badge bg-success">Có</span>' : '<span class="badge bg-secondary">Không</span>';
+                        }
+                    },
+                    {
+                        data: null, // vì không phải field nào trong data cũng có field riêng cho thao tác
                         className: "text-center",
                         orderable: false,
-                        render: function (data) {
+                        render: function (data, type, row) {
                             return `
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${data}" title="Sửa">
-                                        <i class="bi bi-pencil-square"></i> Sửa
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${data}" title="Xóa">
-                                        <i class="bi bi-trash"></i> Xóa
-                                    </button>
-                                </div>
-                            `;
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${row.id}" title="Sửa">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${row.id}" title="Xóa">
+                                <i class="bi bi-trash"></i> Xóa
+                            </button>
+                        </div>
+                    `;
                         }
                     }
-                ],
+                ]
+                ,
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json"
                 },
@@ -135,6 +147,7 @@
             $('#addTopicBtn').click(function () {
                 $('#topicId').val('');
                 $('#topicName').val('').removeClass('is-invalid');
+                $('#topicDescription').val('');
                 $('#topicIsActive').val('true');
                 $('#topicModalLabel').text('Thêm Chủ Đề');
                 $('#topicModal').modal('show');
@@ -146,6 +159,7 @@
                 $.get(`/api/TopicApi/${id}`, function (data) {
                     $('#topicId').val(data.id);
                     $('#topicName').val(data.name).removeClass('is-invalid');
+                    $('#topicDescription').val(data.description || '');
                     $('#topicIsActive').val(data.isActive.toString());
                     $('#topicModalLabel').text('Sửa Chủ Đề');
                     $('#topicModal').modal('show');
@@ -159,10 +173,11 @@
                     $('#topicName').addClass('is-invalid');
                     return;
                 }
-                
+
                 const id = $('#topicId').val();
                 const topic = {
                     name: $('#topicName').val().trim(),
+                    description: $('#topicDescription').val().trim(),
                     isActive: $('#topicIsActive').val() === 'true'
                 };
 
@@ -220,14 +235,14 @@
                         table.ajax.reload(); // Tải lại bảng dữ liệu
                         toastr.success('Xóa thành công!');
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         toastr.error('Lỗi khi xóa: ' + xhr.responseText);
                     }
                 });
             });
-            
+
             // Xử lý form validation khi người dùng nhập
-            $('#topicName').on('input', function() {
+            $('#topicName').on('input', function () {
                 if ($(this).val().trim()) {
                     $(this).removeClass('is-invalid');
                 }
