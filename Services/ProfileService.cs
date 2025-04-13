@@ -46,6 +46,8 @@ namespace Btl_web_nc.Services
                 {
                     existingUser.Name = user.Name;
                     existingUser.Email = user.Email;
+                    existingUser.RoleId = user.RoleId;
+                    existingUser.IsEmailConfirmed = user.IsEmailConfirmed; // Cập nhật mật khẩu nếu cần thiết
                     await _profileRepository.UpdateAsync(existingUser);
                     return (true, null); // Thành công
                 }

@@ -3,100 +3,271 @@
     ViewData["Title"] = "Quản lý tài khoản";
 }
 
-<link rel="stylesheet" href="~/css/phan_trang/ligne.css" asp-append-version="true">
-<link rel="stylesheet" href="~/css/phan_trang/paginate.css" asp-append-version="true">
+
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary"><i class="bi bi-people-fill me-2"></i>Danh sách tài khoản</h2>
-        <a class="btn btn-success" asp-action="Create">
-            <i class="bi bi-plus-circle me-1"></i> Thêm mới
-        </a>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            @if (!Model.Any())
-            {
-                <div class="alert alert-info m-3 mb-0">
-                    <i class="bi bi-info-circle me-2"></i> Chưa có tài khoản nào. Hãy thêm mới!
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách tài khoản</h6>
+            <button class="btn btn-primary" id="addAccount">Thêm tài khoản</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="accountTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 5%">ID</th>
+                            <th style="width: 25%">Email</th>
+                            <th style="width: 30%">Họ và tên</th>
+                            <th style="width: 20%">Vai trò</th>
+                            <th style="width: 20%">Trạng thái tài khoản</th>
+                            <th class="text-center" style="width: 20%">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- DataTables sẽ điền dữ liệu vào đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+@* thêm và sửa *@
+    <!-- Modal Thêm/Sửa Tài Khoản -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Thêm/Sửa Tài Khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-    <table class="table table-hover table-striped mb-0 myTable">
-        <thead class="table-light">
-            <tr>
-                <th style="width: 10%;" class="text-center">ID</th>
-                <th style="width: 30%;">Email</th>
-                <th style="width: 20%;">Tên</th>
-                <th style="width: 15%;" class="text-center">Vai trò</th>
-                <th style="width: 25%;" class="text-center">Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td class="text-center fw-bold">@user.Id</td>
-                    <td>@user.Email</td>
-                    <td>@(!string.IsNullOrWhiteSpace(user.Name) ? user.Name : "<span class='text-danger'>Chưa cập nhật</span>")</td>
-                    <td class="text-center">
-                        @(user.RoleId == 0 ? 
-                            Html.Raw("<span class='badge bg-success'>Quản trị viên</span>") : 
-                            Html.Raw("<span class='badge bg-secondary'>Người dùng</span>"))
-                    </td>
-                    <td class="text-center">
-                        <div class="btn-group" role="group">
-                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Sửa">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@user.Id" data-bs-toggle="tooltip" title="Xóa">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                <div class="modal-body">
+                    <form id="accountForm">
+                        <input type="hidden" id="accountId" />
+                        <div class="mb-3">
+                            <label for="accountEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="accountEmail" required />
+                            <div class="invalid-feedback">Vui lòng nhập email hợp lệ.</div>
                         </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-            }
+                        <div class="mb-3">
+                            <label for="accountPassword" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="accountPassword" required />
+                            <div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
+                            <div class="mb-3">
+                                <label for="accountName" class="form-label">Họ và Tên</label>
+                                <input type="text" class="form-control" id="accountName" required />
+                                <div class="invalid-feedback">Vui lòng nhập họ và tên.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountRole" class="form-label">Vai Trò</label>
+                                <select class="form-select" id="accountRole">
+                                    <option value="1">Người dùng</option>
+                                    <option value="0">Quản trị viên</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountStatus" class="form-label">Trạng Thái Email</label>
+                                <select class="form-select" id="accountStatus">
+                                    <option value="true">Đã xác nhận</option>
+                                    <option value="false">Chưa xác nhận</option>
+                                </select>
+                            </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="saveAccountBtn">Lưu</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+
+@* xoá *@
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Xác Nhận Xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa tài khoản này không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @section Scripts {
-    <script>
-        // Kích hoạt tooltips
-        document.addEventListener('DOMContentLoaded', function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
+        <script>
+            $(document).ready(function () {
+                // Khởi tạo DataTable
+                var table = $('#accountTable').DataTable({
+                    processing: true,
+                    serverSide: false,
+                    ajax: {
+                        url: "/api/profiles",
+                        dataSrc: ""
+                    },
+                    columns: [
+                        { data: "id", className: "text-center fw-bold" },
+                        { data: "email" },
+                        { data: "name" },
+                        {
+                            data: "roleId",
+                            className: "text-center",
+                            render: function (data) {
+                                return data === 1
+                                    ? '<span class="badge bg-secondary">Người dùng</span>'
+                                    : '<span class="badge bg-success">Quản trị viên</span>';
+                            }
+                        },
+                        {
+                            data: "isEmailConfirmed",
+                            className: "text-center",
+                            render: function (data) {
+                                return data
+                                    ? '<span class="badge bg-success">Đã xác nhận</span>'
+                                    : '<span class="badge bg-secondary">Chưa xác nhận</span>';
+                            }
+                        },
+                        {
+                            data: null,
+                            className: "text-center",
+                            orderable: false,
+                            render: function (data, type, row) {
+                                return `
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${row.id}" title="Sửa">
+                                            <i class="bi bi-pencil-square"></i> Sửa
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${row.id}" title="Xóa">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    </div>
+                                `;
+                            }
+                        }
+                    ],
+                    language: {
+                        url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json"
+                    },
+                    responsive: true,
+                    lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Tất cả"]]
+                });
+
+                // Mở modal thêm mới
+                $('#addAccount').click(function () {
+                    $('#accountId').val('');
+                    $('#accountEmail').val('').removeClass('is-invalid');
+                    $('#accountPassword').val('');
+                    $('#accountName').val('');
+                    $('#accountRole').val('1');
+                    $('#accountStatus').val('true');
+                    $('#accountModalLabel').text('Thêm tài khoản');
+                    $('#accountModal').modal('show');
+                });
+
+                // Mở modal sửa
+                $(document).on('click', '.edit-btn', function () {
+                    const id = $(this).data('id');
+                    $.get(`/api/profiles/${id}`, function (data) {
+                        $('#accountId').val(data.id);
+                        $('#accountEmail').val(data.email).removeClass('is-invalid');
+                        $('#accountPassword').val(''); // Không hiển thị mật khẩu cũ
+                        $('#accountName').val(data.name);
+                        $('#accountRole').val(data.roleId);
+                        $('#accountStatus').val(data.isEmailConfirmed.toString());
+                        $('#accountModalLabel').text('Sửa tài khoản');
+                        $('#accountModal').modal('show');
+                    });
+                });
+
+                // Lưu (Thêm/Sửa)
+                $('#saveAccountBtn').click(function () {
+                    if (!$('#accountEmail').val().trim()) {
+                        $('#accountEmail').addClass('is-invalid');
+                        return;
+                    }
+
+                    const id = $('#accountId').val();
+                    const account = {
+                        id: id ? parseInt(id) : 0,
+                        email: $('#accountEmail').val().trim(),
+                        password: $('#accountPassword').val().trim(),
+                        name: $('#accountName').val().trim(),
+                        roleId: parseInt($('#accountRole').val()),
+                        isEmailConfirmed: $('#accountStatus').val() === 'true'
+                    };
+
+                    if (id) {
+                        // Sửa
+                        $.ajax({
+                            url: `/api/profiles/${id}`,
+                            type: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(account),
+                            success: function () {
+                                $('#accountModal').modal('hide');
+                                table.ajax.reload();
+                                toastr.success('Cập nhật tài khoản thành công!');
+                            },
+                            error: function (xhr) {
+                                toastr.error('Lỗi khi cập nhật: ' + xhr.responseText);
+                            }
+                        });
+                    } else {
+                        // Thêm mới
+                        $.ajax({
+                            url: '/api/profiles',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(account),
+                            success: function () {
+                                $('#accountModal').modal('hide');
+                                table.ajax.reload();
+                                toastr.success('Thêm tài khoản thành công!');
+                            },
+                            error: function (xhr) {
+                                toastr.error('Lỗi khi thêm: ' + xhr.responseText);
+                            }
+                        });
+                    }
+                });
+
+$(document).on('click', '.delete-btn', function () {
+    const id = $(this).data('id');
+    $('#confirmDeleteBtn').data('id', id);
+    $('#deleteModalLabel').text('Xóa tài khoản');
+    $('#deleteModal').modal('show');
+});
+
+                // Xác nhận xóa
+                $('#confirmDeleteBtn').click(function () {
+                    const id = $(this).data('id');
+                    $.ajax({
+                        url: `/api/profiles/${id}`,
+                        type: 'DELETE',
+                        success: function () {
+                            $('#deleteModal').modal('hide');
+                            table.ajax.reload();
+                            toastr.success('Xóa tài khoản thành công!');
+                        },
+                        error: function (xhr) {
+                            toastr.error('Lỗi khi xóa: ' + xhr.responseText);
+                        }
+                    });
+                });
             });
-        });
-    </script>
-
-
-    <script src="~/js/phan_trang/paginate.js" asp-append-version="true"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let options = {
-                numberPerPage: 5, // Số dòng mỗi trang
-                goBar: true, // Hiển thị thanh "Go to page"
-                pageCounter: true // Hiển thị số trang
-            };
-
-            paginate.init('.myTable', options);
-        });
-    </script>
+        </script>
 }

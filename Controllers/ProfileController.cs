@@ -26,31 +26,49 @@ namespace Btl_web_nc.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("api/profiles")]
+        public async Task<IActionResult> GetProfiles()
         {
             var profiles = await _profileService.GetAllProfilesAsync();
-            return View(profiles);
+            return Json(profiles);
         }
 
         [Authorize(Roles = "User, Admin")]
-        [HttpGet]
-        public async Task<IActionResult> MyProfile()
+        [HttpGet("api/profiles/{id}")]
+        public async Task<IActionResult> GetProfileById(int id)
         {
-            var userId = User.FindFirst("Id")?.Value;
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-
-            // Lấy thông tin người dùng từ ProfileService
-            var profile = await _profileService.GetProfileByIdAsync(int.Parse(userId));
+            var profile = await _profileService.GetProfileByIdAsync(id);
             if (profile == null)
             {
                 return NotFound();
             }
 
-            return View(profile);
+            return Json(profile);
         }
+        // [Authorize(Roles = "User, Admin")]
+        // public async Task<IActionResult> MyProfile()
+        // {
+        //     var userId = User.FindFirst("Id")?.Value;
+        //     if (userId == null)
+        //     {
+        //         return Unauthorized();
+        //     }
+
+        //     // Lấy thông tin người dùng từ ProfileService
+        //     var profile = await _profileService.GetProfileByIdAsync(int.Parse(userId));
+        //     if (profile == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     return View(profile);
+        // }
 
 
         [Authorize(Roles = "User, Admin")]
@@ -210,5 +228,49 @@ namespace Btl_web_nc.Controllers
         {
             return View("Error!");
         }
+
+
+        // nhả api
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("api/profiles")]
+        public async Task<IActionResult> AddProfile([FromBody] User user)
+        {
+            if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Name))
+            {
+                return BadRequest("Thông tin tài khoản không hợp lệ.");
+            }
+
+            await _profileService.AddProfileAsync(user);
+            return Ok(new { message = "Thêm tài khoản thành công!" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("api/profiles/{id}")]
+        public async Task<IActionResult> UpdateProfile(int id, [FromBody] User user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest("ID không khớp.");
+            }
+
+            var result = await _profileService.UpdateProfileAsync(user);
+            if (!result.Success)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(new { message = "Cập nhật tài khoản thành công!" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("api/profiles/{id}")]
+        public async Task<IActionResult> DeleteProfile(int id)
+        {
+            await _profileService.DeleteProfileAsync(id);
+
+            return Ok(new { message = "Xóa tài khoản thành công!" });
+        }
+
     }
 }

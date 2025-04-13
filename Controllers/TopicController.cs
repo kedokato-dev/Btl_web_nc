@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Btl_web_nc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public class TopicController : Controller
     {
         private readonly TopicServices _topicServices;
@@ -18,8 +18,32 @@ namespace Btl_web_nc.Controllers
         }
 
         // Hiển thị danh sách tất cả các Topic
+        // public async Task<IActionResult> Index()
+        // {
+        //     var topics = await _topicServices.GetAllTopicsAsync();
+        //     return View(topics);
+        // }
+
         public async Task<IActionResult> Index()
         {
+            // Lấy thông tin cookie
+            var lastVisit = Request.Cookies["LastVisit"];
+            if (string.IsNullOrEmpty(lastVisit))
+            {
+                ViewBag.LastVisitMessage = "Đây là lần truy cập đầu tiên của bạn!";
+            }
+            else
+            {
+                ViewBag.LastVisitMessage = $"Lần truy cập gần nhất: {lastVisit}";
+            }
+
+            // Lưu thời gian truy cập hiện tại vào cookie
+            var currentVisit = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            Response.Cookies.Append("LastVisit", currentVisit, new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(7) // Cookie sẽ hết hạn sau 7 ngày
+            });
+
             var topics = await _topicServices.GetAllTopicsAsync();
             return View(topics);
         }
@@ -36,7 +60,7 @@ namespace Btl_web_nc.Controllers
         }
 
         // Hiển thị form để thêm một Topic mới
-        [HttpGet]        
+        [HttpGet]
         public IActionResult Create()
         {
             return View();

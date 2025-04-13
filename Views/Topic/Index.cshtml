@@ -1,31 +1,83 @@
 @{
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <h6 class="m-0 font-weight-bold text-primary">Danh sách chủ đề</h6>
+    @* @if (isAdmin)
+    {
+        <button class="btn btn-primary" id="addTopicBtn">Thêm Chủ Đề</button>
+    } *@
+</div>
+
+<div class="alert alert-info" role="alert">
+    @ViewBag.LastVisitMessage
+</div>
+
+
+@{
     ViewData["Title"] = "Quản lý chủ đề";
 }
 
-<h1 class="h3 mb-4 text-gray-800">Quản lý chủ đề</h1>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <i class="bi bi-house-door"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-folder"></i> Quản lý chủ đề
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-people"></i> Quản lý người dùng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear"></i> Cài đặt
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách chủ đề</h6>
-        <button class="btn btn-primary" id="addTopicBtn">Thêm Chủ Đề</button>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="topicTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th class="text-center" style="width: 5%">ID</th>
-                        <th style="width: 30%">Tên chủ đề</th>
-                        <th style="width: 35%">Mô tả</th>
-                        <th class="text-center" style="width: 15%">Chủ đề hot</th>
-                        <th class="text-center" style="width: 15%">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- DataTables sẽ điền dữ liệu vào đây -->
-                </tbody>
-            </table>
-        </div>
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <h1 class="h3 mb-4 text-gray-800">Quản lý chủ đề</h1>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Danh sách chủ đề</h6>
+                    <button class="btn btn-primary" id="addTopicBtn">Thêm Chủ Đề</button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="topicTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 5%">ID</th>
+                                    <th style="width: 30%">Tên chủ đề</th>
+                                    <th style="width: 35%">Mô tả</th>
+                                    <th class="text-center" style="width: 15%">Chủ đề hot</th>
+                                    <th class="text-center" style="width: 15%">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- DataTables sẽ điền dữ liệu vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 </div>
 
@@ -87,61 +139,51 @@
 
 @section Scripts {
     <script>
+
+
+
+
         $(document).ready(function () {
+            var isAdmin = @isAdmin.ToString().ToLower(); // Truyền giá trị isAdmin vào JavaScript
+
             // Khởi tạo DataTable
             var table = $('#topicTable').DataTable({
-                processing: true,
-                serverSide: false, // Để true nếu bạn muốn server xử lý phân trang
                 ajax: {
-                    url: "/api/Topicapi",
+                    url: "/api/TopicApi",
                     dataSrc: ""
                 },
                 columns: [
+                    { data: "id", className: "text-center fw-bold" },
+                    { data: "name" },
+                    { data: "description", render: function (data) { return data || '<em class="text-muted">Không có mô tả</em>'; } },
+                    { data: "isActive", className: "text-center", render: function (data) { return data ? '<span class="badge bg-success">Có</span>' : '<span class="badge bg-secondary">Không</span>'; } },
                     {
-                        data: "id",
-                        className: "text-center fw-bold"
-                    },
-                    {
-                        data: "name"
-                    },
-                    {
-                        data: "description",
-                        render: function (data) {
-                            return data || '<em class="text-muted">Không có mô tả</em>';
-                        }
-                    },
-                    {
-                        data: "isActive",
-                        className: "text-center",
-                        render: function (data) {
-                            return data ? '<span class="badge bg-success">Có</span>' : '<span class="badge bg-secondary">Không</span>';
-                        }
-                    },
-                    {
-                        data: null, // vì không phải field nào trong data cũng có field riêng cho thao tác
+                        data: null,
                         className: "text-center",
                         orderable: false,
                         render: function (data, type, row) {
-                            return `
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${row.id}" title="Sửa">
-                                <i class="bi bi-pencil-square"></i> Sửa
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${row.id}" title="Xóa">
-                                <i class="bi bi-trash"></i> Xóa
-                            </button>
-                        </div>
-                    `;
+                            if (isAdmin) {
+                                return `
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-outline-primary btn-sm edit-btn" data-id="${row.id}" title="Sửa">
+                                                <i class="bi bi-pencil-square"></i> Sửa
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm delete-btn ms-1" data-id="${row.id}" title="Xóa">
+                                                <i class="bi bi-trash"></i> Xóa
+                                            </button>
+                                        </div>
+                                    `;
+                            } else {
+                                return '<em class="text-muted">Không khả dụng</em>';
+                            }
                         }
                     }
                 ]
-                ,
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json"
-                },
-                responsive: true,
-                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Tất cả"]]
             });
+
+            if (!isAdmin) {
+                $('#addTopicBtn').hide();
+            }
 
             // Mở modal thêm mới
             $('#addTopicBtn').click(function () {
@@ -247,6 +289,11 @@
                     $(this).removeClass('is-invalid');
                 }
             });
+
         });
+
+
+
+
     </script>
 }

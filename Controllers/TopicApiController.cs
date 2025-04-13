@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Btl_web_nc.Models;
 using Btl_web_nc.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Btl_web_nc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TopicApiController : ControllerBase
@@ -38,22 +37,22 @@ namespace Btl_web_nc.Controllers
         }
 
         // POST: api/Topic
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Topic topic)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Đảm bảo `id` không được thiết lập khi thêm mới
             topic.Id = 0;
 
             await _topicServices.AddTopicAsync(topic);
 
-            // Trả về đối tượng topic sau khi thêm thành công
             return Ok(new { message = "Thêm thành công" });
         }
 
         // PUT: api/Topic/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Topic topic)
         {
@@ -67,7 +66,6 @@ namespace Btl_web_nc.Controllers
             if (existing == null)
                 return NotFound();
 
-            // Gán giá trị từ entity client vào entity đang được tracking
             existing.Name = topic.Name;
             existing.IsActive = topic.IsActive;
 
@@ -76,8 +74,8 @@ namespace Btl_web_nc.Controllers
             return Ok(new { success = true, message = "Cập nhật thành công" });
         }
 
-
         // DELETE: api/Topic/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

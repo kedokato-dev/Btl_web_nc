@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Btl_web_nc.styles.css" asp-append-version="true" />
 
-    <link rel="stylesheet" href="~/css/phan_trang/ligne.css" asp-append-version="true">
-    <link rel="stylesheet" href="~/css/phan_trang/paginate.css" asp-append-version="true">
-
     <link href="~/css/news.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
@@ -183,6 +180,11 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     @await Component.InvokeAsync("HotTopics")
                                 </ul>
+                            </li>
+
+                             <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Topic" ? "active" : "")"
+                                    asp-area="" asp-controller="Topic" asp-action="Index">Chủ đề</a>
                             </li>
 
                         </ul>
